@@ -36,7 +36,7 @@ namespace B2BKeys
         private static readonly Color Muted = Color.FromArgb(179, 191, 208);
         private static readonly Color Accent = Color.FromArgb(108, 221, 193);
         private static readonly Color Alert = Color.FromArgb(255, 188, 126);
-        private static readonly string[] Modes = { "按钮", "旋钮", "推子" };
+        private static readonly string[] Modes = { "按钮", "相对旋钮", "绝对cc" };
         private static readonly string[] ModeIds = { "note", "relative", "absolute" };
 
         private readonly ComboBox output = new ComboBox { Width = 180, DropDownStyle = ComboBoxStyle.DropDownList };
