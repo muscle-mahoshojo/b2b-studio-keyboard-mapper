@@ -1,0 +1,56 @@
+{
+  "app": "B2B Studio",
+  "kind": "midi-preset",
+  "version": 1,
+  "name": "B2B Keys",
+  "bindings": {
+    "d0@cdj-3000x:play": {
+      "src": "B2B Keys|note|15|36"
+    },
+    "d0@cdj-3000x:cue": {
+      "src": "B2B Keys|note|15|37"
+    },
+    "d1@cdj-3000x:play": {
+      "src": "B2B Keys|note|15|38"
+    },
+    "d1@cdj-3000x:cue": {
+      "src": "B2B Keys|note|15|39"
+    },
+    "mx@djm-a9:ch1.eqLo": {
+      "src": "B2B Keys|cc|15|70",
+      "rel": "2c"
+    },
+    "mx@djm-v10-lf:ch1.eqLo": {
+      "src": "B2B Keys|cc|15|70",
+      "rel": "2c"
+    },
+    "mx@djm-a9:ch2.eqLo": {
+      "src": "B2B Keys|cc|15|71",
+      "rel": "2c"
+    },
+    "mx@djm-v10-lf:ch2.eqLo": {
+      "src": "B2B Keys|cc|15|71",
+      "rel": "2c"
+    },
+    "mx@djm-a9:ch1.fader": {
+      "src": "B2B Keys|cc|15|72",
+      "rel": "2c"
+    },
+    "mx@djm-v10-lf:ch1.fader": {
+      "src": "B2B Keys|cc|15|72",
+      "rel": "2c"
+    },
+    "mx@djm-a9:ch2.fader": {
+      "src": "B2B Keys|cc|15|73",
+      "rel": "2c"
+    },
+    "mx@djm-v10-lf:ch2.fader": {
+      "src": "B2B Keys|cc|15|73",
+      "rel": "2c"
+    },
+    "mx@djm-a9:xf.pos": {
+      "src": "B2B Keys|cc|15|74",
+      "rel": "2c"
+    }
+  }
+}
