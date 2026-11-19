@@ -36,7 +36,7 @@ namespace B2BKeys
         private static readonly Color Muted = Color.FromArgb(179, 191, 208);
         private static readonly Color Accent = Color.FromArgb(108, 221, 193);
         private static readonly Color Alert = Color.FromArgb(255, 188, 126);
-        private static readonly string[] Modes = { "按钮", "相对旋钮", "绝对 CC" };
+        private static readonly string[] Modes = { "按钮", "旋钮", "推子" };
         private static readonly string[] ModeIds = { "note", "relative", "absolute" };
 
         private readonly ComboBox output = new ComboBox { Width = 180, DropDownStyle = ComboBoxStyle.DropDownList };
@@ -109,7 +109,7 @@ namespace B2BKeys
             AddButton(toolbar, "导入键位", ImportKeys);
             AddButton(toolbar, "导出键位", ExportKeys);
             AddButton(toolbar, "导出 Studio 预设", ExportStudio);
-            AddButton(toolbar, "发送学习信号", Learn);
+            AddButton(toolbar, "绑定选中控件", Learn);
 
             SetupGrid();
             layout.Controls.Add(grid, 0, 4);
