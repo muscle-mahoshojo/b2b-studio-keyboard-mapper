@@ -32,6 +32,10 @@ Windows 键盘转 MIDI 工具，适用于 B2B Studio 桌面版。工具通过 St
 - 同组的不同 Deck 可以使用相同键位。左右组、共用映射和切换键的键位需要区分。若要在另一套 Deck 使用同一 Studio 控件，点「复用映射」，选择已有控件并为新映射录入键位。导出的 Studio 预设包含所有 Deck 和共用映射。
 - 旧键位导入后会出现在共用映射中。可在左组或右组新增 Deck，再用「移动所选」分配旧映射。保存键位后会使用分组格式。
 
+## 状态悬浮窗
+
+悬浮窗在启动时显示映射开关和左右组当前生效的 Deck，主窗口最小化后仍会置顶。可拖动悬浮窗，工具会记住位置。主窗口的「显示悬浮窗」可在本次会话中隐藏或恢复显示。
+
 ## 自定义
 
 - **换键**　暂停工具，双击对应键位单元格，再按键或按组合键。点击「保存键位」或「启用映射」后，本机自动保存配置。可以用「导入键位」和「导出键位」备份。只改键位和步进时，Studio 可以继续使用原 MIDI 预设。
@@ -53,5 +57,5 @@ $framework = Join-Path $env:WINDIR 'Microsoft.NET\Framework64\v4.0.30319'
 & (Join-Path $framework 'csc.exe') /nologo /target:winexe /optimize+ /codepage:65001 `
     '/out:B2B Keyboard Mapper.exe' /reference:System.Web.Extensions.dll `
     "/reference:$framework\WPF\UIAutomationClient.dll" "/reference:$framework\WPF\UIAutomationTypes.dll" `
-    "/reference:$framework\WPF\WindowsBase.dll" Mapper.cs Window.cs StudioLearning.cs
+    "/reference:$framework\WPF\WindowsBase.dll" Mapper.cs Window.cs StudioLearning.cs StatusOverlay.cs
 ```

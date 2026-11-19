@@ -157,7 +157,7 @@ namespace B2BKeys
             string serialized = Json.Serialize(this);
             if (Encoding.UTF8.GetByteCount(serialized) + Environment.NewLine.Length > Json.MaxJsonLength)
                 throw new InvalidDataException("配置文件过大。");
-            Write(path, serialized);
+            WriteJson(path, serialized);
         }
 
         internal void SaveLearnedTarget(Binding binding, string target, string path)
@@ -199,13 +199,13 @@ namespace B2BKeys
                 }
             }
             if (bindings.Count == 0) throw new InvalidDataException("至少填写一个 Studio 控件 ID 才能导出预设。");
-            Write(path, Json.Serialize(new
+            WriteJson(path, Json.Serialize(new
             {
                 app = "B2B Studio", kind = "midi-preset", version = 1, name = "B2B Keys", bindings = bindings
             }));
         }
 
-        private static void Write(string path, string contents)
+        internal static void WriteJson(string path, string contents)
         {
             Directory.CreateDirectory(Path.GetDirectoryName(path));
             var temp = path + "." + Guid.NewGuid().ToString("N") + ".tmp";

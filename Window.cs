@@ -50,6 +50,7 @@ namespace B2BKeys
         private readonly ComboBox scopeSelector = new ComboBox { Width = 110, DropDownStyle = ComboBoxStyle.DropDownList };
         private readonly ComboBox deckSelector = new ComboBox { Width = 165, DropDownStyle = ComboBoxStyle.DropDownList };
         private readonly Label deckStatus = new Label { Dock = DockStyle.Fill, AutoEllipsis = true, TextAlign = ContentAlignment.MiddleLeft };
+        private readonly CheckBox overlayToggle = new CheckBox { Text = "显示悬浮窗", Checked = true, AutoSize = true, Dock = DockStyle.Fill };
         private readonly Button newDeck, renameDeck, removeDeck, defaultDeck, switchKey, addMapping, reuseMapping, moveMapping;
         private readonly FlowLayoutPanel toolbar = new FlowLayoutPanel();
         private readonly Stopwatch clock = Stopwatch.StartNew();
@@ -60,6 +61,7 @@ namespace B2BKeys
         private StudioKeyboard keyboard;
         private MidiOutput midi;
         private MappingEngine engine;
+        private StatusOverlay overlay;
         private DataGridViewCell capturing;
         private System.Threading.CancellationTokenSource learning;
         private Profile draft;
@@ -111,7 +113,13 @@ namespace B2BKeys
             tips.SetToolTip(inputName, "输入端口名称与输出一致时留空即可。此名称用于识别学习结果和导出 Studio 预设。");
 
             deckStatus.ForeColor = Accent;
-            layout.Controls.Add(deckStatus, 0, 3);
+            var statusRow = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 2, RowCount = 1, Margin = Padding.Empty };
+            statusRow.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+            statusRow.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            statusRow.Controls.Add(deckStatus, 0, 0);
+            statusRow.Controls.Add(overlayToggle, 1, 0);
+            overlayToggle.CheckedChanged += delegate { UpdateOverlayVisibility(); };
+            layout.Controls.Add(statusRow, 0, 3);
             deckEditor.Dock = DockStyle.Fill;
             deckEditor.WrapContents = false;
             layout.Controls.Add(deckEditor, 0, 4);
@@ -156,13 +164,18 @@ namespace B2BKeys
                 if (port != null) preferredOutput = port.Name;
             };
             timer.Tick += delegate { Tick(); };
-            Shown += delegate { OpenKeyboard(); };
+            Shown += delegate
+            {
+                OpenKeyboard();
+                UpdateOverlayVisibility();
+            };
             FormClosing += delegate
             {
                 if (learning != null) learning.Cancel();
                 timer.Stop();
                 Pause();
                 if (keyboard != null) keyboard.Dispose();
+                if (overlay != null) overlay.Dispose();
                 tips.Dispose();
             };
             LoadProfile();
@@ -343,14 +356,42 @@ namespace B2BKeys
         {
             deckStatus.Text = GroupStatus(MappingScope.Left) + "     │     " + GroupStatus(MappingScope.Right);
             tips.SetToolTip(deckStatus, deckStatus.Text);
+            UpdateOverlayState();
         }
 
         private string GroupStatus(MappingScope scope)
         {
             var group = draft.Group(scope);
+            return Profile.GroupName(scope) + "   " + CurrentDeckName(scope)
+                + (group.Decks.Count > 1 ? "   [" + Chord.Display(group.SwitchKey) + "]" : "");
+        }
+
+        private string CurrentDeckName(MappingScope scope)
+        {
             int index = sessionDecks[(int)scope];
-            return Profile.GroupName(scope) + "   " + (index < 0 ? "未配置 Deck" : group.Decks[index].Name
-                + (group.Decks.Count > 1 ? "   [" + Chord.Display(group.SwitchKey) + "]" : ""));
+            return index < 0 ? "未配置 Deck" : draft.Group(scope).Decks[index].Name;
+        }
+
+        private void UpdateOverlayVisibility()
+        {
+            if (!overlayToggle.Checked)
+            {
+                if (overlay != null) overlay.Hide();
+                return;
+            }
+            if (overlay == null)
+            {
+                var positionPath = Path.Combine(Path.GetDirectoryName(Profile.FilePath), "overlay.json");
+                overlay = new StatusOverlay(positionPath, () => Screen.FromControl(this).WorkingArea);
+            }
+            UpdateOverlayState();
+            overlay.Show();
+        }
+
+        private void UpdateOverlayState()
+        {
+            if (overlay != null)
+                overlay.SetState(active, CurrentDeckName(MappingScope.Left), CurrentDeckName(MappingScope.Right));
         }
 
         private void AddDeck()
@@ -825,6 +866,7 @@ namespace B2BKeys
         {
             grid.Enabled = ports.Enabled = deckEditor.Enabled = toolbar.Enabled = enabled;
             toggle.Text = active ? "暂停映射" : "启用映射";
+            UpdateOverlayState();
         }
 
         private void Pause()
