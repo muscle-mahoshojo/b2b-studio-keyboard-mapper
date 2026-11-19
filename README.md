@@ -26,11 +26,23 @@ Windows 键盘转 MIDI 工具，适用于 B2B Studio 桌面版。工具通过 St
 ## 自定义
 
 - **换键**　暂停工具，双击对应键位单元格，再按键或按组合键。点击「保存键位」或「启用映射」后，本机自动保存配置。可以用「导入键位」和「导出键位」备份。只改键位和步进时，Studio 可以继续使用原 MIDI 预设。
-- **增加控件**　添加一行，填上名称、类型、键位和未使用的 Note / CC 编号。在 Studio 点击 **MIDI** 开启学习，点一下目标控件。回到工具选中该行，点「发送学习信号」。Studio 显示绑定成功后，再按一次 **MIDI** 退出学习。部分 Studio 场景可能要求登录才能导入预设，可在界面提供学习时逐项绑定。
+- **增加控件**　添加一行，填上名称、类型、键位和未使用的 Note / CC 编号。在 Studio 点击 **MIDI** 开启学习，点一下目标控件。回到工具选中该行，点「发送学习信号」，等待工具显示控件 ID 已保存。工具会把学到的 ID 追加到该行并去重，最多等待 8 秒。完成后可在 Studio 再按一次 **MIDI** 退出学习。
 - **按钮**　按下发送 Note On，松开时发送 Note Off。适合 PLAY、CUE 等控件。
 - **相对旋钮**　按键从控件当前位置增减，长按连续调节。学习后可在 Studio 的 **WHEEL TUNING** 确认类型为 **REL 2**。要用相对步进控制推子，请填写 Studio 控件 ID 并导出预设。
 - **绝对 CC**　使用工具记录的 0–127 数值，适合通过 MIDI 学习绑定绝对位置的推子。每次启动工具后从「初始值」开始，首次操作可能把推子带到该位置附近。
 
-Studio 控件 ID 可从 Studio 导出的预设中查看。可在一行填多个 ID，用逗号分隔，例如同一按键控制不同混音器面板上的对应旋钮。
+如果工具提示未确认控件，请检查 Studio 已开启学习并选中控件。Studio 的 MIDI 输入端口与工具的输出端口名称不同时，在「Studio 输入」填写 Studio 显示的名称。若 ID 已用于另一行，可先在原行移除该 ID，再重新学习。也可以从 Studio 导出的预设查看控件 ID，再手动填入。可在一行填多个 ID，用逗号分隔。
 
 配置保存在 `%LOCALAPPDATA%\B2B Keyboard Mapper\keys.json`。
+
+## 从源码编译
+
+在仓库目录的 PowerShell 中运行以下命令。编译前关闭正在运行的工具。
+
+```powershell
+$framework = Join-Path $env:WINDIR 'Microsoft.NET\Framework64\v4.0.30319'
+& (Join-Path $framework 'csc.exe') /nologo /target:winexe /optimize+ /codepage:65001 `
+    '/out:B2B Keyboard Mapper.exe' /reference:System.Web.Extensions.dll `
+    "/reference:$framework\WPF\UIAutomationClient.dll" "/reference:$framework\WPF\UIAutomationTypes.dll" `
+    "/reference:$framework\WPF\WindowsBase.dll" Mapper.cs Window.cs StudioLearning.cs
+```

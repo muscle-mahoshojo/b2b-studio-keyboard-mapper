@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace B2BKeys
@@ -55,6 +56,7 @@ namespace B2BKeys
         private MidiOutput midi;
         private MappingEngine engine;
         private DataGridViewCell capturing;
+        private System.Threading.CancellationTokenSource learning;
         private bool active, prepared;
         private string preferredOutput = Profile.DefaultPort;
 
@@ -96,7 +98,7 @@ namespace B2BKeys
             ports.Controls.Add(channel);
             AddLabel(ports, "Studio 输入名（可选）");
             ports.Controls.Add(inputName);
-            tips.SetToolTip(inputName, "输入端口名称与输出一致时留空即可。此名称只用于导出 Studio 预设。");
+            tips.SetToolTip(inputName, "输入端口名称与输出一致时留空即可。此名称用于识别学习结果和导出 Studio 预设。");
 
             toolbar.Dock = DockStyle.Fill;
             toolbar.WrapContents = false;
@@ -127,6 +129,7 @@ namespace B2BKeys
             Shown += delegate { OpenKeyboard(); };
             FormClosing += delegate
             {
+                if (learning != null) learning.Cancel();
                 timer.Stop();
                 Pause();
                 if (keyboard != null) keyboard.Dispose();
@@ -189,7 +192,7 @@ namespace B2BKeys
             var targets = AddColumn("Studio 控件 ID（可选）", 195);
             targets.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             targets.MinimumWidth = 195;
-            targets.ToolTipText = "仅用于导出 Studio 预设。可填多个控件 ID，以逗号分隔。";
+            targets.ToolTipText = "学习成功后自动填入并保存，用于导出 Studio 预设。多个 ID 以逗号分隔。";
             foreach (DataGridViewColumn column in grid.Columns) column.SortMode = DataGridViewColumnSortMode.NotSortable;
             grid.CellDoubleClick += delegate(object sender, DataGridViewCellEventArgs args)
             {
@@ -403,7 +406,7 @@ namespace B2BKeys
             WithSaveDialog("Studio MIDI 预设 (*.json)|*.json", "B2B_Keys.b2bmidi.json", delegate(string path)
             {
                 var profile = ReadGrid();
-                profile.ExportPreset(path, String.IsNullOrWhiteSpace(profile.Input) ? profile.Output : profile.Input);
+                profile.ExportPreset(path, profile.StudioPort);
                 SetStatus("预设已导出。可在 Studio 的 MIDI ▾ → Import 中载入。");
             }, Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
         }
@@ -426,16 +429,57 @@ namespace B2BKeys
             return new MidiOutput(port.Index);
         }
 
-        private void Learn()
+        private async void Learn()
         {
-            if (grid.CurrentRow == null) return;
-            ShowErrors(delegate
+            if (grid.CurrentRow == null || active || learning != null) return;
+            var row = grid.CurrentRow;
+            var request = new System.Threading.CancellationTokenSource();
+            learning = request;
+            try
             {
                 var profile = ReadGrid();
+                var binding = profile.Bindings[row.Index];
+                var studio = new StudioLearning(profile, binding);
+                SetEditorEnabled(false);
+                toggle.Enabled = false;
+                SetStatus("正在读取 Studio 的 MIDI 学习状态…");
+                await studio.CaptureAsync(request.Token);
+                request.Token.ThrowIfCancellationRequested();
+
                 using (var device = OpenOutput(profile.Output))
-                    new MappingEngine(profile, device.Send).Learn(profile.Bindings[grid.CurrentRow.Index]);
-                SetStatus("已发送「" + profile.Bindings[grid.CurrentRow.Index].Name + "」的学习信号。");
-            });
+                    new MappingEngine(profile, device.Send).Learn(binding);
+                SetStatus("已发送「" + binding.Name + "」的学习信号，正在等待 Studio 确认…");
+                string target = await Task.Run(() => studio.WaitForTargetAsync(request.Token), request.Token);
+                request.Token.ThrowIfCancellationRequested();
+
+                var owner = profile.Bindings.FirstOrDefault(item => item != binding && item.TargetIds().Contains(target));
+                if (owner != null)
+                    throw new InvalidOperationException("Studio 已绑定「" + target + "」，但该 ID 已用于「" + owner.Name + "」。");
+                if (!binding.TargetIds().Contains(target))
+                    binding.Targets = String.Join(", ", binding.TargetIds().Concat(new[] { target }));
+
+                try { profile.Save(Profile.FilePath); }
+                catch (Exception error)
+                {
+                    throw new InvalidOperationException("Studio 已绑定「" + target + "」，但保存键位失败。" + error.Message, error);
+                }
+                row.Cells[7].Value = binding.Targets;
+                SetStatus("已保存「" + binding.Name + "」的 Studio 控件 ID「" + target + "」。");
+            }
+            catch (Exception error)
+            {
+                if (!request.IsCancellationRequested) SetStatus(error.Message, true);
+            }
+            finally
+            {
+                learning = null;
+                if (!request.IsCancellationRequested)
+                {
+                    SetEditorEnabled(true);
+                    toggle.Enabled = true;
+                }
+                request.Dispose();
+            }
         }
 
         private void OpenKeyboard()
@@ -449,6 +493,7 @@ namespace B2BKeys
 
         private void ToggleFromWindow()
         {
+            if (learning != null) return;
             if (active) { Pause(); return; }
             ShowErrors(delegate
             {
@@ -481,7 +526,7 @@ namespace B2BKeys
         private void SetEditorEnabled(bool enabled)
         {
             grid.Enabled = ports.Enabled = toolbar.Enabled = enabled;
-            toggle.Text = enabled ? "启用映射" : "暂停映射";
+            toggle.Text = active ? "暂停映射" : "启用映射";
         }
 
         private void Pause()
@@ -528,7 +573,7 @@ namespace B2BKeys
                 if (swallowed.Contains(key)) return true;
                 if (StudioKeyboard.IsDown((Keys)key)) return false;
                 int modifiers = StudioKeyboard.Modifiers();
-                if (key == (int)Chord.PauseKey && modifiers == 0 && (active || prepared))
+                if (key == (int)Chord.PauseKey && modifiers == 0 && learning == null && (active || prepared))
                 {
                     swallowed.Add(key);
                     BeginInvoke(new Action(ToggleFromWindow));

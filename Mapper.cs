@@ -25,6 +25,11 @@ namespace B2BKeys
         internal bool IsNote { get { return Mode == "note"; } }
         internal bool IsRelative { get { return Mode == "relative"; } }
 
+        internal string MidiSource(string port, int channel)
+        {
+            return String.Format("{0}|{1}|{2}|{3}", port, IsNote ? "note" : "cc", channel - 1, Number);
+        }
+
         internal IEnumerable<string> TargetIds()
         {
             return (Targets ?? "").Split(',').Select(target => target.Trim()).Where(target => target.Length > 0);
@@ -43,6 +48,8 @@ namespace B2BKeys
         public string Input { get; set; }
         public int Channel { get; set; }
         public List<Binding> Bindings { get; set; }
+
+        internal string StudioPort { get { return String.IsNullOrWhiteSpace(Input) ? Output : Input; } }
 
         internal static Profile Defaults()
         {
@@ -102,8 +109,7 @@ namespace B2BKeys
             var bindings = new Dictionary<string, object>();
             foreach (var binding in Bindings)
             {
-                var src = String.Format("{0}|{1}|{2}|{3}", port, binding.IsNote ? "note" : "cc",
-                    Channel - 1, binding.Number);
+                var src = binding.MidiSource(port, Channel);
                 foreach (var target in binding.TargetIds())
                 {
                     var mapping = new Dictionary<string, string> { { "src", src } };
@@ -165,10 +171,15 @@ namespace B2BKeys
                     throw new InvalidDataException(name + "初始值使用 0–127。");
                 foreach (var target in binding.TargetIds())
                 {
-                    if (target.Length > 120 || !Regex.IsMatch(target, @"^(d[0-3]|mx|p[12])@[^\s:|]+:[^\s|]+$") || !targets.Add(target))
+                    if (!IsTargetId(target) || !targets.Add(target))
                         throw new InvalidDataException(name + "控件 ID 无效或重复（" + target + "）。");
                 }
             }
+        }
+
+        internal static bool IsTargetId(string target)
+        {
+            return target.Length <= 120 && Regex.IsMatch(target, @"^(d[0-3]|mx|p[12])@[^\s:|]+:[^\s|]+$");
         }
     }
 
