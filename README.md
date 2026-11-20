@@ -2,6 +2,9 @@
 
 Windows 键盘转 MIDI 工具，适用于 B2B Studio 桌面版。工具通过 Studio 的 MIDI 映射控制控件，可以从界面配置按键、组合键、旋钮步进和 MIDI 通道。
 
+## B2B Studio 网址：
+[B2B Studio 网址](https://b2bstudio.live/)
+
 ## 第一次使用
 
 1. 在[loopMIDI 官网](https://www.tobias-erichsen.de/software/loopmidi.html)下载安装并启动 loopMIDI，创建一个端口，并让 loopMIDI 保持运行。
