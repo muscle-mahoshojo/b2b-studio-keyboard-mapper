@@ -31,28 +31,24 @@ namespace B2BKeys
 
     internal sealed class MapperWindow : Form
     {
-        private static readonly Color Surface = Color.FromArgb(24, 28, 36);
-        private static readonly Color Ink = Color.FromArgb(237, 240, 246);
-        private static readonly Color Muted = Color.FromArgb(179, 191, 208);
-        private static readonly Color Accent = Color.FromArgb(108, 221, 193);
-        private static readonly Color Alert = Color.FromArgb(255, 188, 126);
         private static readonly string[] Modes = { "按钮", "相对旋钮", "绝对cc" };
         private static readonly string[] ModeIds = { "note", "relative", "absolute" };
 
-        private readonly ComboBox output = new ComboBox { Width = 180, DropDownStyle = ComboBoxStyle.DropDownList };
+        private readonly ComboBox output = new ComboBox { Width = 195, DropDownStyle = ComboBoxStyle.DropDownList };
         private readonly TextBox inputName = new TextBox { Width = 145 };
-        private readonly NumericUpDown channel = new NumericUpDown { Minimum = 1, Maximum = 16, Width = 52 };
+        private readonly NumericUpDown channel = new NumericUpDown { Minimum = 1, Maximum = 16, Width = 56 };
         private readonly MappingGrid grid = new MappingGrid();
-        private readonly Label status = new Label { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleLeft };
+        private readonly Label status = new Label { Dock = DockStyle.Fill, AutoEllipsis = true, TextAlign = ContentAlignment.MiddleLeft, Margin = Padding.Empty };
         private readonly Button toggle;
-        private readonly FlowLayoutPanel ports = new FlowLayoutPanel();
-        private readonly FlowLayoutPanel deckEditor = new FlowLayoutPanel();
-        private readonly ComboBox scopeSelector = new ComboBox { Width = 110, DropDownStyle = ComboBoxStyle.DropDownList };
-        private readonly ComboBox deckSelector = new ComboBox { Width = 165, DropDownStyle = ComboBoxStyle.DropDownList };
-        private readonly Label deckStatus = new Label { Dock = DockStyle.Fill, AutoEllipsis = true, TextAlign = ContentAlignment.MiddleLeft };
-        private readonly CheckBox overlayToggle = new CheckBox { Text = "显示悬浮窗", Checked = true, AutoSize = true, Dock = DockStyle.Fill };
+        private readonly FlowLayoutPanel ports = NewFlow();
+        private readonly FlowLayoutPanel deckEditor = NewFlow();
+        private readonly ComboBox scopeSelector = new ComboBox { Width = 98, DropDownStyle = ComboBoxStyle.DropDownList };
+        private readonly ComboBox deckSelector = new ComboBox { Width = 132, DropDownWidth = 245, DropDownStyle = ComboBoxStyle.DropDownList };
+        private readonly MappingIndicator mappingStatus = new MappingIndicator();
+        private readonly DeckCard leftStatus, rightStatus;
+        private readonly CheckBox overlayToggle = new CheckBox { Text = "显示悬浮窗", Checked = true, AutoSize = true };
         private readonly Button newDeck, renameDeck, removeDeck, defaultDeck, switchKey, addMapping, reuseMapping, moveMapping;
-        private readonly FlowLayoutPanel toolbar = new FlowLayoutPanel();
+        private readonly FlowLayoutPanel toolbar = NewFlow();
         private readonly Stopwatch clock = Stopwatch.StartNew();
         private readonly Timer timer = new Timer { Interval = 15 };
         private readonly HashSet<int> swallowed = new HashSet<int>();
@@ -76,87 +72,150 @@ namespace B2BKeys
         {
             Text = "B2B Keyboard Mapper";
             StartPosition = FormStartPosition.CenterScreen;
-            ClientSize = new Size(1080, 650);
-            MinimumSize = new Size(950, 560);
-            AutoScaleMode = AutoScaleMode.Dpi;
-            Font = new Font("Microsoft YaHei UI", 9F);
-            BackColor = Color.FromArgb(16, 19, 26);
-            ForeColor = Ink;
+            ClientSize = new Size(1120, 668);
+            MinimumSize = new Size(820, 608);
+            ConsoleTheme.StyleWindow(this);
+            SuspendLayout();
 
-            var layout = new TableLayoutPanel { Dock = DockStyle.Fill, Padding = new Padding(20, 12, 20, 12), ColumnCount = 1, RowCount = 8 };
-            foreach (var size in new[] { 43, 25, 48, 26, 38, 39 })
-                layout.RowStyles.Add(new RowStyle(SizeType.Absolute, size));
+            var layout = NewStack(5);
+            layout.Padding = new Padding(22, 13, 22, 9);
+            layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 73));
+            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 80));
             layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
-            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 41));
-            Controls.Add(layout);
-            layout.Controls.Add(new Label
-            {
-                Text = Text, ForeColor = Ink, Font = new Font("Segoe UI", 22F, FontStyle.Bold),
-                Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleLeft
-            }, 0, 0);
-            layout.Controls.Add(new Label
-            {
-                Text = "双击键位录入按键或组合键。启用后只在 B2B Studio 前台生效，F8 暂停或恢复。",
-                Dock = DockStyle.Fill, ForeColor = Muted
-            }, 0, 1);
+            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 28));
 
-            ports.Dock = DockStyle.Fill;
-            ports.WrapContents = false;
-            layout.Controls.Add(ports, 0, 2);
-            AddLabel(ports, "MIDI 输出");
-            ports.Controls.Add(output);
-            AddButton(ports, "刷新", delegate { RefreshPorts(); });
-            AddLabel(ports, "通道");
-            ports.Controls.Add(channel);
-            AddLabel(ports, "Studio 输入名（可选）");
-            ports.Controls.Add(inputName);
+            var header = NewStack(2);
+            header.AutoSize = true;
+            header.ColumnCount = 2;
+            header.ColumnStyles[0].SizeType = SizeType.Percent;
+            header.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            header.Margin = new Padding(0, 0, 0, 14);
+            header.Controls.Add(ConsoleTheme.Label(Text, ConsoleTheme.Ink, ConsoleTheme.Title), 0, 0);
+            header.Controls.Add(ConsoleTheme.Label("仅在 B2B Studio 位于前台时发送 MIDI", ConsoleTheme.Muted), 0, 1);
+
+            var headerControls = NewStack(2);
+            headerControls.AutoSize = true;
+            header.Controls.Add(headerControls, 1, 0);
+            header.SetRowSpan(headerControls, 2);
+            var enableRow = NewFlow(false);
+            enableRow.Anchor = AnchorStyles.Right;
+            mappingStatus.Size = new Size(95, 37);
+            mappingStatus.Margin = new Padding(0, 2, 14, 0);
+            enableRow.Controls.Add(mappingStatus);
+            toggle = AddButton(enableRow, "启用映射", ToggleFromWindow, true);
+            toggle.Margin = new Padding(0, 2, 0, 0);
+            headerControls.Controls.Add(enableRow, 0, 0);
+            var shortcuts = NewFlow(false);
+            shortcuts.Anchor = AnchorStyles.Right;
+            shortcuts.Margin = new Padding(0, 4, 0, 0);
+            var pauseKey = ConsoleTheme.Label("F8", ConsoleTheme.Accent, ConsoleTheme.Key);
+            pauseKey.BackColor = ConsoleTheme.Raised;
+            pauseKey.Padding = new Padding(5, 1, 5, 1);
+            pauseKey.Margin = new Padding(0, 0, 7, 0);
+            shortcuts.Controls.Add(pauseKey);
+            shortcuts.Controls.Add(ConsoleTheme.Label("暂停／恢复", ConsoleTheme.Muted));
+            headerControls.Controls.Add(shortcuts, 0, 1);
+            layout.Controls.Add(header, 0, 0);
+
+            var decks = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 2, RowCount = 1, Margin = new Padding(0, 0, 0, 11) };
+            decks.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
+            decks.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
+            decks.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+            leftStatus = new DeckCard("左组 · 当前 Deck", tips) { Margin = new Padding(0, 0, 6, 0) };
+            rightStatus = new DeckCard("右组 · 当前 Deck", tips) { Margin = new Padding(6, 0, 0, 0) };
+            decks.Controls.Add(leftStatus, 0, 0);
+            decks.Controls.Add(rightStatus, 1, 0);
+            layout.Controls.Add(decks, 0, 1);
+
+            var connection = new ConsolePanel
+            {
+                Dock = DockStyle.Fill,
+                Margin = new Padding(0, 0, 0, 11), Padding = new Padding(13, 7, 12, 7)
+            };
+            var connectionRow = NewStack(2);
+            connectionRow.ColumnCount = 2;
+            connectionRow.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            connectionRow.RowStyles.Add(new RowStyle(SizeType.Absolute, 21));
+            connectionRow.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+            var connectionTitle = ConsoleTheme.Label("MIDI 连接", ConsoleTheme.Ink, ConsoleTheme.Strong);
+            connectionTitle.Anchor = AnchorStyles.Left;
+            connectionRow.Controls.Add(connectionTitle, 0, 0);
+            AddLabel(ports, "输出");
+            AddInput(ports, output);
+            AddButton(ports, "刷新", RefreshPorts);
+            AddLabel(ports, "通道", 8);
+            AddInput(ports, channel);
+            AddLabel(ports, "Studio 输入（可选）", 8);
+            AddInput(ports, inputName);
+            connectionRow.Controls.Add(ports, 0, 1);
+            connectionRow.SetColumnSpan(ports, 2);
+            overlayToggle.Anchor = AnchorStyles.Right;
+            overlayToggle.ForeColor = ConsoleTheme.Muted;
+            overlayToggle.Margin = new Padding(8, 0, 0, 0);
+            overlayToggle.CheckedChanged += delegate { UpdateOverlayVisibility(); };
+            connectionRow.Controls.Add(overlayToggle, 1, 0);
+            connection.Controls.Add(connectionRow);
+            layout.Controls.Add(connection, 0, 2);
             tips.SetToolTip(inputName, "输入端口名称与输出一致时留空即可。此名称用于识别学习结果和导出 Studio 预设。");
 
-            deckStatus.ForeColor = Accent;
-            var statusRow = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 2, RowCount = 1, Margin = Padding.Empty };
-            statusRow.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
-            statusRow.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
-            statusRow.Controls.Add(deckStatus, 0, 0);
-            statusRow.Controls.Add(overlayToggle, 1, 0);
-            overlayToggle.CheckedChanged += delegate { UpdateOverlayVisibility(); };
-            layout.Controls.Add(statusRow, 0, 3);
-            deckEditor.Dock = DockStyle.Fill;
-            deckEditor.WrapContents = false;
-            layout.Controls.Add(deckEditor, 0, 4);
-            AddLabel(deckEditor, "编辑");
+            var workbench = new ConsolePanel { Dock = DockStyle.Fill, Margin = Padding.Empty, Padding = new Padding(12, 8, 12, 10) };
+            var editor = NewStack(4);
+            editor.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            editor.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            editor.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            editor.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+            var workbenchHeader = NewFlow();
+            var editorTitle = ConsoleTheme.Label("映射编辑", ConsoleTheme.Ink, ConsoleTheme.Strong);
+            editorTitle.Margin = new Padding(0, 0, 12, 0);
+            workbenchHeader.Controls.Add(editorTitle);
+            workbenchHeader.Controls.Add(ConsoleTheme.Label("双击键位录入按键或组合键", ConsoleTheme.Muted));
+            workbenchHeader.Margin = new Padding(0, 2, 0, 6);
+            editor.Controls.Add(workbenchHeader, 0, 0);
+
+            editor.Controls.Add(deckEditor, 0, 1);
+            AddLabel(deckEditor, "范围");
             scopeSelector.Items.AddRange(new object[] { "共用映射", "左组", "右组" });
-            deckEditor.Controls.Add(scopeSelector);
-            deckEditor.Controls.Add(deckSelector);
+            AddInput(deckEditor, scopeSelector);
+            AddInput(deckEditor, deckSelector);
             newDeck = AddButton(deckEditor, "新增 Deck", AddDeck);
             renameDeck = AddButton(deckEditor, "重命名", RenameDeck);
             removeDeck = AddButton(deckEditor, "删除 Deck", DeleteDeck);
             defaultDeck = AddButton(deckEditor, "设为默认", SetDefaultDeck);
             switchKey = AddButton(deckEditor, "切换键", SetSwitchKey);
-            tips.SetToolTip(deckSelector, "选择要编辑的 Deck。启用映射后，使用该组的切换键选择当前 Deck。");
+            scopeSelector.AccessibleName = "编辑范围";
+            deckSelector.AccessibleName = "要编辑的 Deck";
+            output.AccessibleName = "MIDI 输出";
+            channel.AccessibleName = "MIDI 通道";
+            inputName.AccessibleName = "Studio 输入名";
             scopeSelector.SelectedIndexChanged += delegate { ChangeEditor(true); };
             deckSelector.SelectedIndexChanged += delegate { ChangeEditor(false); };
 
-            toolbar.Dock = DockStyle.Fill;
-            toolbar.WrapContents = false;
-            layout.Controls.Add(toolbar, 0, 5);
-            addMapping = AddButton(toolbar, "新增映射", AddRow);
-            AddButton(toolbar, "删除所选", DeleteRow);
-            moveMapping = AddButton(toolbar, "移动所选", MoveRow);
-            reuseMapping = AddButton(toolbar, "复用映射", ReuseRow);
-            AddButton(toolbar, "保存键位", Save);
-            AddButton(toolbar, "导入键位", ImportKeys);
-            AddButton(toolbar, "导出键位", ExportKeys);
-            AddButton(toolbar, "导出 Studio 预设", ExportStudio);
-            AddButton(toolbar, "绑定选中控件", Learn);
+            toolbar.Margin = new Padding(0, 5, 0, 7);
+            editor.Controls.Add(toolbar, 0, 2);
+            var editTools = NewFlow(false);
+            editTools.Margin = new Padding(0, 0, 14, 0);
+            toolbar.Controls.Add(editTools);
+            addMapping = AddButton(editTools, "新增映射", AddRow);
+            AddButton(editTools, "删除所选", DeleteRow);
+            moveMapping = AddButton(editTools, "移动所选", MoveRow);
+            reuseMapping = AddButton(editTools, "复用映射", ReuseRow);
+            AddButton(editTools, "绑定选中控件", Learn);
+
+            var fileTools = NewFlow(false);
+            toolbar.Controls.Add(fileTools);
+            AddButton(fileTools, "保存键位", Save);
+            AddButton(fileTools, "导入键位", ImportKeys);
+            AddButton(fileTools, "导出键位", ExportKeys);
+            AddButton(fileTools, "导出 Studio 预设", ExportStudio);
 
             SetupGrid();
-            layout.Controls.Add(grid, 0, 6);
-            var footer = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 2, RowCount = 1 };
-            footer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
-            footer.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
-            footer.Controls.Add(status, 0, 0);
-            toggle = AddButton(footer, "启用映射", ToggleFromWindow, true);
-            layout.Controls.Add(footer, 0, 7);
+            editor.Controls.Add(grid, 0, 3);
+            workbench.Controls.Add(editor);
+            layout.Controls.Add(workbench, 0, 3);
+            layout.Controls.Add(status, 0, 4);
+            Controls.Add(layout);
+            ResumeLayout(true);
 
             output.SelectionChangeCommitted += delegate
             {
@@ -181,20 +240,39 @@ namespace B2BKeys
             LoadProfile();
         }
 
-        private static void AddLabel(Control parent, string text)
+        private static TableLayoutPanel NewStack(int rows)
         {
-            parent.Controls.Add(new Label { Text = text, AutoSize = true, ForeColor = Muted, Margin = new Padding(10, 7, 2, 0) });
+            var stack = new TableLayoutPanel { Dock = DockStyle.Fill, Margin = Padding.Empty, ColumnCount = 1, RowCount = rows };
+            stack.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+            return stack;
+        }
+
+        private static FlowLayoutPanel NewFlow(bool wrap = true)
+        {
+            return new FlowLayoutPanel
+            {
+                Dock = wrap ? DockStyle.Fill : DockStyle.None, AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink, Margin = Padding.Empty, WrapContents = wrap
+            };
+        }
+
+        private static void AddLabel(Control parent, string text, int left = 0)
+        {
+            var label = ConsoleTheme.Label(text, ConsoleTheme.Muted);
+            label.Margin = new Padding(left, 9, 6, 0);
+            parent.Controls.Add(label);
+        }
+
+        private static void AddInput(Control parent, Control input)
+        {
+            ConsoleTheme.StyleInput(input);
+            input.Margin = new Padding(0, 5, 8, 2);
+            parent.Controls.Add(input);
         }
 
         private static Button AddButton(Control parent, string text, Action click, bool primary = false)
         {
-            var button = new Button
-            {
-                Text = text, AutoSize = true, Height = 30, FlatStyle = FlatStyle.Flat,
-                Margin = new Padding(3, 1, 6, 2), MinimumSize = new Size(0, 29), Padding = new Padding(6, 0, 6, 0),
-                BackColor = primary ? Accent : Surface, ForeColor = primary ? Color.FromArgb(10, 34, 30) : Ink
-            };
-            button.FlatAppearance.BorderSize = 0;
+            var button = new ConsoleButton(text, primary);
             button.Click += delegate { click(); };
             parent.Controls.Add(button);
             return button;
@@ -203,19 +281,28 @@ namespace B2BKeys
         private void SetupGrid()
         {
             grid.Dock = DockStyle.Fill;
-            grid.BackgroundColor = Surface;
-            grid.BorderStyle = BorderStyle.None;
-            grid.GridColor = Color.FromArgb(46, 55, 69);
+            grid.Margin = Padding.Empty;
+            grid.BackgroundColor = ConsoleTheme.Field;
+            grid.BorderStyle = BorderStyle.FixedSingle;
+            grid.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            grid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
+            grid.GridColor = ConsoleTheme.Line;
             grid.EnableHeadersVisualStyles = false;
-            grid.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(37, 45, 58);
-            grid.ColumnHeadersDefaultCellStyle.ForeColor = Ink;
-            grid.ColumnHeadersHeight = 34;
-            grid.DefaultCellStyle.BackColor = Surface;
-            grid.DefaultCellStyle.ForeColor = Ink;
-            grid.DefaultCellStyle.SelectionBackColor = Color.FromArgb(43, 73, 85);
-            grid.DefaultCellStyle.SelectionForeColor = Ink;
-            grid.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(28, 33, 42);
-            grid.RowTemplate.Height = 30;
+            grid.ColumnHeadersDefaultCellStyle.BackColor = ConsoleTheme.Raised;
+            grid.ColumnHeadersDefaultCellStyle.ForeColor = ConsoleTheme.Ink;
+            grid.ColumnHeadersDefaultCellStyle.SelectionBackColor = ConsoleTheme.Raised;
+            grid.ColumnHeadersDefaultCellStyle.SelectionForeColor = ConsoleTheme.Ink;
+            grid.ColumnHeadersDefaultCellStyle.Font = ConsoleTheme.Strong;
+            grid.ColumnHeadersDefaultCellStyle.Padding = new Padding(5, 0, 0, 0);
+            grid.ColumnHeadersHeight = 36;
+            grid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            grid.DefaultCellStyle.BackColor = ConsoleTheme.Surface;
+            grid.DefaultCellStyle.ForeColor = ConsoleTheme.Ink;
+            grid.DefaultCellStyle.SelectionBackColor = ConsoleTheme.AccentSurface;
+            grid.DefaultCellStyle.SelectionForeColor = ConsoleTheme.Ink;
+            grid.DefaultCellStyle.Padding = new Padding(5, 0, 5, 0);
+            grid.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(28, 34, 38);
+            grid.RowTemplate.Height = 34;
             grid.RowHeadersVisible = false;
             grid.AllowUserToAddRows = false;
             grid.AllowUserToDeleteRows = false;
@@ -223,20 +310,32 @@ namespace B2BKeys
             grid.MultiSelect = false;
             grid.EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2;
 
-            AddColumn("名称", 170);
-            var mode = new DataGridViewComboBoxColumn { HeaderText = "类型", Width = 106, FlatStyle = FlatStyle.Flat };
+            grid.AccessibleName = "按键映射表";
+
+            AddColumn("名称", 175);
+            var mode = new DataGridViewComboBoxColumn
+            {
+                HeaderText = "类型", Width = 104, FlatStyle = FlatStyle.Flat,
+                DisplayStyleForCurrentCellOnly = true
+            };
             mode.Items.AddRange(Modes);
             grid.Columns.Add(mode);
-            AddColumn("按下 / 减少", 108, true);
-            AddColumn("增加", 108, true);
-            AddColumn("Note / CC", 75);
-            AddColumn("步进", 58);
-            AddColumn("初始值", 72);
+            AddColumn("按下 / 减少", 122, true);
+            AddColumn("增加", 122, true);
+            AddColumn("Note / CC", 82);
+            AddColumn("步进", 62);
+            AddColumn("初始值", 76);
             var targets = AddColumn("Studio 控件 ID（可选）", 195);
             targets.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             targets.MinimumWidth = 195;
             targets.ToolTipText = "学习成功后自动填入并保存，用于导出 Studio 预设。多个 ID 以逗号分隔。";
             foreach (DataGridViewColumn column in grid.Columns) column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            grid.CellPainting += PaintChord;
+            grid.EditingControlShowing += delegate(object sender, DataGridViewEditingControlShowingEventArgs args)
+            {
+                args.Control.BackColor = ConsoleTheme.Field;
+                args.Control.ForeColor = ConsoleTheme.Ink;
+            };
             grid.CellDoubleClick += delegate(object sender, DataGridViewCellEventArgs args)
             {
                 if (args.RowIndex >= 0 && (args.ColumnIndex == 2 || args.ColumnIndex == 3))
@@ -259,6 +358,24 @@ namespace B2BKeys
             };
         }
 
+        private void PaintChord(object sender, DataGridViewCellPaintingEventArgs args)
+        {
+            if (args.RowIndex < 0 || (args.ColumnIndex != 2 && args.ColumnIndex != 3)) return;
+            bool recording = capturing != null && args.RowIndex == capturing.RowIndex && args.ColumnIndex == capturing.ColumnIndex;
+            string text = recording ? "录入中…" : Convert.ToString(args.FormattedValue);
+            if (text.Length == 0 || text == "—") return;
+            args.Paint(args.ClipBounds, args.PaintParts & ~(DataGridViewPaintParts.ContentForeground | DataGridViewPaintParts.Focus));
+            var cell = args.CellBounds;
+            int height = cell.Height - 10;
+            var font = recording ? ConsoleTheme.Body : ConsoleTheme.Key;
+            int width = Math.Min(cell.Width - 14, Math.Max(26, TextRenderer.MeasureText(text, font).Width + 9));
+            ConsoleTheme.PaintKey(args.Graphics, new Rectangle(cell.Left + 7, cell.Top + 4, width, height),
+                text, font, ConsoleTheme.Field, recording ? ConsoleTheme.Accent : ConsoleTheme.Line,
+                !grid.Enabled ? ConsoleTheme.Dim : recording ? ConsoleTheme.Accent : ConsoleTheme.Ink);
+            args.Paint(args.ClipBounds, args.PaintParts & DataGridViewPaintParts.Focus);
+            args.Handled = true;
+        }
+
         private DataGridViewColumn AddColumn(string title, int width, bool readOnly = false)
         {
             var column = new DataGridViewTextBoxColumn { HeaderText = title, Width = width, ReadOnly = readOnly };
@@ -271,7 +388,8 @@ namespace B2BKeys
             try
             {
                 Fill(File.Exists(Profile.FilePath) ? Profile.Load(Profile.FilePath) : Profile.Defaults());
-                SetStatus(output.Items.Count == 0 ? "找不到 MIDI 输出。请先创建 B2B Keys 虚拟端口，再点刷新。" : "已暂停，点击「启用映射」开始。");
+                if (output.Items.Count > 0 && output.SelectedIndex >= 0)
+                    SetStatus("已暂停，点击「启用映射」开始。");
             }
             catch (Exception error)
             {
@@ -326,6 +444,7 @@ namespace B2BKeys
             RefreshSelectors();
             grid.Rows.Clear();
             var bindings = EditedBindings;
+            grid.EmptyMessage = bindings == null ? "此组还没有 Deck。请先新增 Deck。" : "此范围暂无映射。可以新增或复用映射。";
             if (bindings != null)
                 foreach (var binding in bindings) FillRow(binding);
         }
@@ -345,8 +464,11 @@ namespace B2BKeys
                     deckSelector.SelectedIndex = group.Decks.IndexOf(editingDeck);
                 }
                 deckSelector.Enabled = renameDeck.Enabled = removeDeck.Enabled = defaultDeck.Enabled = editingDeck != null;
+                tips.SetToolTip(deckSelector, editingDeck == null ? "选择要编辑的 Deck。" : editingDeck.Name);
                 newDeck.Enabled = switchKey.Enabled = group != null;
-                switchKey.Text = group == null ? "切换键" : "切换键 " + Chord.Display(group.SwitchKey);
+                string shortcut = group == null || group.SwitchKey == 0 ? "未设置切换键" : "切换键 " + Chord.Display(group.SwitchKey);
+                tips.SetToolTip(switchKey, shortcut);
+                switchKey.AccessibleDescription = shortcut;
                 addMapping.Enabled = moveMapping.Enabled = reuseMapping.Enabled = EditedBindings != null;
             }
             finally { loadingSelectors = false; }
@@ -354,16 +476,16 @@ namespace B2BKeys
 
         private void UpdateDeckStatus()
         {
-            deckStatus.Text = GroupStatus(MappingScope.Left) + "     │     " + GroupStatus(MappingScope.Right);
-            tips.SetToolTip(deckStatus, deckStatus.Text);
+            UpdateDeckCard(leftStatus, MappingScope.Left);
+            UpdateDeckCard(rightStatus, MappingScope.Right);
             UpdateOverlayState();
         }
 
-        private string GroupStatus(MappingScope scope)
+        private void UpdateDeckCard(DeckCard card, MappingScope scope)
         {
             var group = draft.Group(scope);
-            return Profile.GroupName(scope) + "   " + CurrentDeckName(scope)
-                + (group.Decks.Count > 1 ? "   [" + Chord.Display(group.SwitchKey) + "]" : "");
+            string shortcut = group.Decks.Count > 1 && group.SwitchKey != 0 ? Chord.Display(group.SwitchKey) : "";
+            card.SetDeck(CurrentDeckName(scope), shortcut);
         }
 
         private string CurrentDeckName(MappingScope scope)
@@ -567,16 +689,21 @@ namespace B2BKeys
         {
             using (var dialog = new Form
             {
-                Text = title, ClientSize = new Size(470, 115), StartPosition = FormStartPosition.CenterParent,
+                Text = title, ClientSize = new Size(470, 139), StartPosition = FormStartPosition.CenterParent,
                 FormBorderStyle = FormBorderStyle.FixedDialog, MinimizeBox = false, MaximizeBox = false,
-                ShowInTaskbar = false, Font = Font
+                ShowInTaskbar = false
             })
             {
-                dialog.Controls.Add(new Label { Text = label, AutoSize = true, Location = new Point(12, 12) });
-                editor.SetBounds(12, 34, 446, 25);
+                ConsoleTheme.StyleWindow(dialog);
+                var prompt = ConsoleTheme.Label(label, ConsoleTheme.Ink, ConsoleTheme.Strong);
+                prompt.Location = new Point(18, 16);
+                dialog.Controls.Add(prompt);
+                editor.SetBounds(18, 45, 434, 25);
+                ConsoleTheme.StyleInput(editor);
+                editor.AccessibleName = label;
                 dialog.Controls.Add(editor);
-                var accept = new Button { Text = "确定", DialogResult = DialogResult.OK, Bounds = new Rectangle(290, 74, 80, 28) };
-                var cancel = new Button { Text = "取消", DialogResult = DialogResult.Cancel, Bounds = new Rectangle(378, 74, 80, 28) };
+                var accept = new ConsoleButton("确定", true) { DialogResult = DialogResult.OK, AutoSize = false, Bounds = new Rectangle(246, 85, 110, 37) };
+                var cancel = new ConsoleButton("取消") { DialogResult = DialogResult.Cancel, AutoSize = false, Bounds = new Rectangle(364, 85, 88, 37) };
                 dialog.Controls.Add(accept);
                 dialog.Controls.Add(cancel);
                 dialog.AcceptButton = accept;
@@ -589,12 +716,20 @@ namespace B2BKeys
         private void FillRow(Binding binding)
         {
             int mode = Array.IndexOf(ModeIds, binding.Mode);
-            var index = grid.Rows.Add(binding.Name, Modes[mode], Chord.Display(binding.Down), Chord.Display(binding.Up),
+            var index = grid.Rows.Add(binding.Name, Modes[mode], null, null,
                 binding.Number, binding.Step, binding.Initial, binding.Targets);
             var row = grid.Rows[index];
-            row.Cells[2].Tag = binding.Down;
-            row.Cells[3].Tag = binding.Up;
+            SetChord(row.Cells[2], binding.Down);
+            SetChord(row.Cells[3], binding.Up);
             UpdateRow(row);
+        }
+
+        private static void SetChord(DataGridViewCell cell, int value)
+        {
+            string text = Chord.Display(value);
+            cell.Tag = value;
+            cell.Value = text;
+            cell.ToolTipText = value == 0 ? "" : text;
         }
 
         private static void UpdateRow(DataGridViewRow row)
@@ -606,7 +741,7 @@ namespace B2BKeys
             foreach (var index in new[] { 3, 5, 6 })
             {
                 bool available = index == 3 ? mode != Modes[0] : !row.Cells[index].ReadOnly;
-                row.Cells[index].Style.ForeColor = available ? Ink : Color.FromArgb(119, 132, 151);
+                row.Cells[index].Style.ForeColor = available ? ConsoleTheme.Ink : ConsoleTheme.Dim;
             }
         }
 
@@ -633,7 +768,7 @@ namespace B2BKeys
             if (cell.ColumnIndex == 3 && Convert.ToString(cell.OwningRow.Cells[1].Value) == Modes[0]) return;
             grid.CurrentCell = cell;
             capturing = cell;
-            cell.Style.SelectionForeColor = Accent;
+            grid.InvalidateCell(cell);
             SetStatus("按下要绑定的键或组合键。Esc 取消，Delete 清除。");
         }
 
@@ -650,8 +785,7 @@ namespace B2BKeys
             if (key == Keys.Escape) { EndCapture(); return true; }
             if (key != Keys.Delete && !Chord.CanBind((int)key)) return true;
             var value = key == Keys.Delete ? 0 : (int)key;
-            capturing.Tag = value;
-            capturing.Value = Chord.Display(value);
+            SetChord(capturing, value);
             EndCapture();
             SetStatus(value == 0 ? "键位已清除。" : "已录入 " + Chord.Display(value) + "。");
             return true;
@@ -660,8 +794,9 @@ namespace B2BKeys
         private void EndCapture()
         {
             if (capturing == null) return;
-            capturing.Style.SelectionForeColor = Color.Empty;
+            var cell = capturing;
             capturing = null;
+            if (cell.DataGridView == grid) grid.InvalidateCell(cell);
             SetStatus("已退出键位录入。");
         }
 
@@ -714,8 +849,8 @@ namespace B2BKeys
                 output.SelectedItem = port;
                 break;
             }
-            if (output.Items.Count == 0) SetStatus("找不到 MIDI 输出。请先创建 B2B Keys 虚拟端口，再点刷新。");
-            else if (output.SelectedIndex < 0) SetStatus("请选择 MIDI 输出端口。");
+            if (output.Items.Count == 0) SetStatus("找不到 MIDI 输出。请先创建 B2B Keys 虚拟端口，再点刷新。", true);
+            else if (output.SelectedIndex < 0) SetStatus("请选择 MIDI 输出端口。", true);
             else SetStatus("已选择 " + preferredOutput + "。");
         }
 
@@ -866,6 +1001,7 @@ namespace B2BKeys
         {
             grid.Enabled = ports.Enabled = deckEditor.Enabled = toolbar.Enabled = enabled;
             toggle.Text = active ? "暂停映射" : "启用映射";
+            mappingStatus.SetMappingActive(active);
             UpdateOverlayState();
         }
 
@@ -947,7 +1083,7 @@ namespace B2BKeys
 
         private void SetStatus(string text, bool warning = false)
         {
-            status.ForeColor = warning ? Alert : active ? Accent : Muted;
+            status.ForeColor = warning ? ConsoleTheme.Alert : active ? ConsoleTheme.Accent : ConsoleTheme.Muted;
             status.Text = text;
             tips.SetToolTip(status, text);
         }
@@ -960,13 +1096,15 @@ namespace B2BKeys
         internal ShortcutDialog(string group)
         {
             Text = group + "切换键";
-            ClientSize = new Size(360, 90);
+            ClientSize = new Size(385, 114);
             StartPosition = FormStartPosition.CenterParent;
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MinimizeBox = MaximizeBox = ShowInTaskbar = false;
-            Font = new Font("Microsoft YaHei UI", 9F);
-            Controls.Add(new Label { Text = "按下新按键或组合键。Delete 清除，Esc 取消。", AutoSize = true, Location = new Point(12, 14) });
-            var cancel = new Button { Text = "取消", DialogResult = DialogResult.Cancel, Bounds = new Rectangle(267, 48, 80, 28) };
+            ConsoleTheme.StyleWindow(this);
+            var prompt = ConsoleTheme.Label("按下新按键或组合键。Delete 清除，Esc 取消。", ConsoleTheme.Ink);
+            prompt.Location = new Point(18, 19);
+            Controls.Add(prompt);
+            var cancel = new ConsoleButton("取消") { DialogResult = DialogResult.Cancel, AutoSize = false, Bounds = new Rectangle(279, 60, 88, 37) };
             Controls.Add(cancel);
             CancelButton = cancel;
         }
@@ -986,6 +1124,25 @@ namespace B2BKeys
     internal sealed class MappingGrid : DataGridView
     {
         internal Func<Keys, bool> HandleKeys;
+        private string emptyMessage;
+
+        internal MappingGrid() { DoubleBuffered = true; }
+
+        internal string EmptyMessage
+        {
+            set { emptyMessage = value; Invalidate(); }
+        }
+
+        protected override void OnPaint(PaintEventArgs args)
+        {
+            base.OnPaint(args);
+            if (Rows.Count != 0 || String.IsNullOrEmpty(emptyMessage)) return;
+            var bounds = new Rectangle(14, ColumnHeadersHeight + 12, Math.Max(0, ClientSize.Width - 28),
+                Math.Max(0, ClientSize.Height - ColumnHeadersHeight - 34));
+            TextRenderer.DrawText(args.Graphics, emptyMessage, ConsoleTheme.Body, bounds, ConsoleTheme.Muted,
+                TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.WordBreak);
+        }
+
         protected override bool ProcessCmdKey(ref Message message, Keys key)
         {
             return (HandleKeys != null && HandleKeys(key)) || base.ProcessCmdKey(ref message, key);

@@ -57,5 +57,5 @@ $framework = Join-Path $env:WINDIR 'Microsoft.NET\Framework64\v4.0.30319'
 & (Join-Path $framework 'csc.exe') /nologo /target:winexe /optimize+ /codepage:65001 `
     '/out:B2B Keyboard Mapper.exe' /reference:System.Web.Extensions.dll `
     "/reference:$framework\WPF\UIAutomationClient.dll" "/reference:$framework\WPF\UIAutomationTypes.dll" `
-    "/reference:$framework\WPF\WindowsBase.dll" Mapper.cs Window.cs StudioLearning.cs StatusOverlay.cs
+    "/reference:$framework\WPF\WindowsBase.dll" Mapper.cs Window.cs StudioLearning.cs StatusOverlay.cs ConsoleTheme.cs
 ```

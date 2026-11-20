@@ -1,1 +1,4 @@
 *.exe
+.agents
+skills-lock.json
+promo

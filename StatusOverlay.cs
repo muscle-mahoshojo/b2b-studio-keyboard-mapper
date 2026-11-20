@@ -19,9 +19,8 @@ namespace B2BKeys
 
         private readonly string positionPath;
         private readonly Func<Rectangle> defaultArea;
-        private readonly Label mappingStatus = StatusLabel();
-        private readonly Label leftStatus = StatusLabel();
-        private readonly Label rightStatus = StatusLabel();
+        private readonly MappingIndicator mappingStatus = new MappingIndicator();
+        private readonly DeckCard leftStatus, rightStatus;
         private readonly ToolTip tips = new ToolTip();
         private readonly Timer dragTimer = new Timer { Interval = 15 };
         private readonly JavaScriptSerializer json = new JavaScriptSerializer { MaxJsonLength = 4096 };
@@ -35,33 +34,37 @@ namespace B2BKeys
             SetStyle(ControlStyles.Selectable, false);
             Text = "B2B 映射状态";
             StartPosition = FormStartPosition.Manual;
-            AutoScaleMode = AutoScaleMode.Dpi;
-            ClientSize = new Size(300, 92);
+            ClientSize = new Size(278, 92);
             FormBorderStyle = FormBorderStyle.None;
             ShowInTaskbar = false;
-            BackColor = Color.FromArgb(24, 28, 36);
-            ForeColor = Color.FromArgb(237, 240, 246);
-            Font = new Font("Microsoft YaHei UI", 9F);
+            ConsoleTheme.StyleWindow(this);
             Cursor = Cursors.SizeAll;
 
+            var surface = new ConsolePanel { Dock = DockStyle.Fill, Padding = new Padding(8, 5, 8, 8), Cursor = Cursors.SizeAll };
             var layout = new TableLayoutPanel
             {
                 Dock = DockStyle.Fill,
-                Padding = new Padding(12, 8, 12, 8),
-                ColumnCount = 1,
-                RowCount = 3,
+                ColumnCount = 2,
+                RowCount = 2,
                 Cursor = Cursors.SizeAll
             };
+            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
+            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
             layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 26));
-            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 50));
-            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 50));
-            mappingStatus.Font = new Font(Font, FontStyle.Bold);
+            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+            mappingStatus.Dock = DockStyle.Fill;
+            mappingStatus.Margin = new Padding(3, 0, 0, 0);
+            mappingStatus.Cursor = Cursors.SizeAll;
             layout.Controls.Add(mappingStatus, 0, 0);
+            layout.SetColumnSpan(mappingStatus, 2);
+            leftStatus = new DeckCard("左组", tips, true) { Margin = new Padding(0, 2, 3, 0), Cursor = Cursors.SizeAll };
+            rightStatus = new DeckCard("右组", tips, true) { Margin = new Padding(3, 2, 0, 0), Cursor = Cursors.SizeAll };
             layout.Controls.Add(leftStatus, 0, 1);
-            layout.Controls.Add(rightStatus, 0, 2);
-            Controls.Add(layout);
+            layout.Controls.Add(rightStatus, 1, 1);
+            surface.Controls.Add(layout);
+            Controls.Add(surface);
 
-            foreach (var control in new Control[] { this, layout, mappingStatus, leftStatus, rightStatus })
+            foreach (var control in new Control[] { this, surface, layout, mappingStatus, leftStatus, rightStatus })
                 control.MouseDown += BeginDrag;
             dragTimer.Tick += MoveWhileDragging;
         }
@@ -89,23 +92,11 @@ namespace B2BKeys
             base.WndProc(ref message);
         }
 
-        private static Label StatusLabel()
-        {
-            return new Label
-            {
-                Dock = DockStyle.Fill, Margin = Padding.Empty, AutoEllipsis = true,
-                TextAlign = ContentAlignment.MiddleLeft, Cursor = Cursors.SizeAll
-            };
-        }
-
         internal void SetState(bool enabled, string left, string right)
         {
-            mappingStatus.Text = enabled ? "映射已启用" : "映射未启用";
-            mappingStatus.ForeColor = enabled ? Color.FromArgb(108, 221, 193) : Color.FromArgb(179, 191, 208);
-            leftStatus.Text = "左组  " + left;
-            rightStatus.Text = "右组  " + right;
-            tips.SetToolTip(leftStatus, leftStatus.Text);
-            tips.SetToolTip(rightStatus, rightStatus.Text);
+            mappingStatus.SetMappingActive(enabled);
+            leftStatus.SetDeck(left);
+            rightStatus.SetDeck(right);
         }
 
         protected override void OnLoad(EventArgs args)
