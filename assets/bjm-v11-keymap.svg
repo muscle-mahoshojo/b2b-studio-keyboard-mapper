@@ -1,0 +1,975 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1258" viewBox="0 0 1440 1258" role="img" aria-labelledby="title description" xml:lang="zh-CN">
+  <title id="title">BJM-V11 键盘与碟机控件对照图</title>
+  <desc id="description">上半部为普通键，下半部为按住 Shift 的组合键。每条折线连接一个键帽与对应控件，减号和加号表示调节方向。F2 切换左组，F11 切换右组。</desc>
+  <style>
+    text { fill: #17253b; font-family: "Segoe UI", "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", sans-serif; }
+    .canvas { fill: #fff; }
+    .panel { fill: #f4f6fa; stroke: #dce3ee; }
+    .muted { fill: #495872; }
+    .left { --ink: #00604f; --surface: #e3f4ed; --line: #187c63; }
+    .right { --ink: #214ea1; --surface: #e8efff; --line: #3e68ba; }
+    .common { --ink: #7b430e; --surface: #fff0d9; --line: #a5611e; }
+    .key { fill: #fff; stroke: #becadd; }
+    .inactive { fill: #53627a; }
+    .active, .control { fill: var(--surface); stroke: var(--line); }
+    .shift { fill: #e8e4f9; stroke: #7965ad; }
+    .mapped-label { fill: var(--ink); }
+    .wire, .glyph { fill: none; stroke: var(--line); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .pin { fill: var(--line); }
+  </style>
+  <rect class="canvas" width="1440" height="1258"/>
+  <text x="62" y="48" font-size="31" font-weight="700">BJM-V11 键盘与碟机控件对照图</text>
+  <text x="63" y="76" font-size="18" class="muted">P2P-3000X 播放器和混音器</text>
+  <g class="left">
+    <circle class="pin" cx="956" cy="43" r="6"/>
+    <text x="970" y="49" font-size="18">左组</text>
+  </g>
+  <g class="right">
+    <circle class="pin" cx="1054" cy="43" r="6"/>
+    <text x="1068" y="49" font-size="18">右组</text>
+  </g>
+  <g class="common">
+    <circle class="pin" cx="1152" cy="43" r="6"/>
+    <text x="1166" y="49" font-size="18">共用映射</text>
+  </g>
+  <text x="1378" y="76" font-size="18" class="muted" text-anchor="end">− 减少　+ 增加</text>
+  <g id="plain-keys">
+    <rect class="panel" x="62" y="101" width="1316" height="598" rx="18"/>
+    <text x="90" y="140" font-size="24" font-weight="700">普通键</text>
+    <g>
+      <g data-key="Esc">
+        <rect class="key" x="90" y="164" width="76" height="42" rx="8"/>
+        <text class="inactive" x="128" y="192" font-size="20" font-weight="600" text-anchor="middle">Esc</text>
+      </g>
+      <g data-key="F1">
+        <rect class="key" x="258" y="164" width="76" height="42" rx="8"/>
+        <text class="inactive" x="296" y="192" font-size="20" font-weight="600" text-anchor="middle">F1</text>
+      </g>
+      <g class="left" data-key="F2">
+        <rect class="active" x="342" y="164" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="380" y="192" font-size="20" font-weight="600" text-anchor="middle">F2</text>
+      </g>
+      <g data-key="F3">
+        <rect class="key" x="426" y="164" width="76" height="42" rx="8"/>
+        <text class="inactive" x="464" y="192" font-size="20" font-weight="600" text-anchor="middle">F3</text>
+      </g>
+      <g data-key="F4">
+        <rect class="key" x="510" y="164" width="76" height="42" rx="8"/>
+        <text class="inactive" x="548" y="192" font-size="20" font-weight="600" text-anchor="middle">F4</text>
+      </g>
+      <g data-key="F5">
+        <rect class="key" x="636" y="164" width="76" height="42" rx="8"/>
+        <text class="inactive" x="674" y="192" font-size="20" font-weight="600" text-anchor="middle">F5</text>
+      </g>
+      <g data-key="F6">
+        <rect class="key" x="720" y="164" width="76" height="42" rx="8"/>
+        <text class="inactive" x="758" y="192" font-size="20" font-weight="600" text-anchor="middle">F6</text>
+      </g>
+      <g data-key="F7">
+        <rect class="key" x="804" y="164" width="76" height="42" rx="8"/>
+        <text class="inactive" x="842" y="192" font-size="20" font-weight="600" text-anchor="middle">F7</text>
+      </g>
+      <g data-key="F8">
+        <rect class="key" x="888" y="164" width="76" height="42" rx="8"/>
+        <text class="inactive" x="926" y="192" font-size="20" font-weight="600" text-anchor="middle">F8</text>
+      </g>
+      <g data-key="F9">
+        <rect class="key" x="1014" y="164" width="76" height="42" rx="8"/>
+        <text class="inactive" x="1052" y="192" font-size="20" font-weight="600" text-anchor="middle">F9</text>
+      </g>
+      <g data-key="F10">
+        <rect class="key" x="1098" y="164" width="76" height="42" rx="8"/>
+        <text class="inactive" x="1136" y="192" font-size="20" font-weight="600" text-anchor="middle">F10</text>
+      </g>
+      <g class="right" data-key="F11">
+        <rect class="active" x="1182" y="164" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="1220" y="192" font-size="20" font-weight="600" text-anchor="middle">F11</text>
+      </g>
+      <g data-key="F12">
+        <rect class="key" x="1266" y="164" width="76" height="42" rx="8"/>
+        <text class="inactive" x="1304" y="192" font-size="20" font-weight="600" text-anchor="middle">F12</text>
+      </g>
+      <g class="left" data-control="左组切盘">
+        <polyline class="wire" data-chord="113" data-action="switch" points="380,206 380,213 395,213 395,221"/>
+        <circle class="pin" cx="380" cy="206" r="3"/>
+        <rect class="control" x="340" y="221" width="80" height="32" rx="7"/>
+        <text class="mapped-label" x="380" y="243" font-size="17" font-weight="600" text-anchor="middle">左组切盘</text>
+      </g>
+      <g class="right" data-control="右组切盘">
+        <polyline class="wire" data-chord="122" data-action="switch" points="1220,206 1220,213 1235,213 1235,221"/>
+        <circle class="pin" cx="1220" cy="206" r="3"/>
+        <rect class="control" x="1180" y="221" width="80" height="32" rx="7"/>
+        <text class="mapped-label" x="1220" y="243" font-size="17" font-weight="600" text-anchor="middle">右组切盘</text>
+      </g>
+    </g>
+    <g>
+      <g data-key="`">
+        <rect class="key" x="90" y="258" width="76" height="42" rx="8"/>
+        <text class="inactive" x="128" y="286" font-size="20" font-weight="600" text-anchor="middle">`</text>
+      </g>
+      <g class="left" data-key="1">
+        <rect class="active" x="174" y="258" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="212" y="286" font-size="20" font-weight="600" text-anchor="middle">1</text>
+      </g>
+      <g class="left" data-key="2">
+        <rect class="active" x="258" y="258" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="296" y="286" font-size="20" font-weight="600" text-anchor="middle">2</text>
+      </g>
+      <g class="left" data-key="3">
+        <rect class="active" x="342" y="258" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="380" y="286" font-size="20" font-weight="600" text-anchor="middle">3</text>
+      </g>
+      <g class="left" data-key="4">
+        <rect class="active" x="426" y="258" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="464" y="286" font-size="20" font-weight="600" text-anchor="middle">4</text>
+      </g>
+      <g data-key="5">
+        <rect class="key" x="510" y="258" width="76" height="42" rx="8"/>
+        <text class="inactive" x="548" y="286" font-size="20" font-weight="600" text-anchor="middle">5</text>
+      </g>
+      <g data-key="6">
+        <rect class="key" x="594" y="258" width="76" height="42" rx="8"/>
+        <text class="inactive" x="632" y="286" font-size="20" font-weight="600" text-anchor="middle">6</text>
+      </g>
+      <g data-key="7">
+        <rect class="key" x="678" y="258" width="76" height="42" rx="8"/>
+        <text class="inactive" x="716" y="286" font-size="20" font-weight="600" text-anchor="middle">7</text>
+      </g>
+      <g data-key="8">
+        <rect class="key" x="762" y="258" width="76" height="42" rx="8"/>
+        <text class="inactive" x="800" y="286" font-size="20" font-weight="600" text-anchor="middle">8</text>
+      </g>
+      <g class="right" data-key="9">
+        <rect class="active" x="846" y="258" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="884" y="286" font-size="20" font-weight="600" text-anchor="middle">9</text>
+      </g>
+      <g class="right" data-key="0">
+        <rect class="active" x="930" y="258" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="968" y="286" font-size="20" font-weight="600" text-anchor="middle">0</text>
+      </g>
+      <g class="right" data-key="-">
+        <rect class="active" x="1014" y="258" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="1052" y="286" font-size="20" font-weight="600" text-anchor="middle">-</text>
+      </g>
+      <g class="right" data-key="=">
+        <rect class="active" x="1098" y="258" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="1136" y="286" font-size="20" font-weight="600" text-anchor="middle">=</text>
+      </g>
+      <g data-key="Backspace">
+        <rect class="key" x="1182" y="258" width="160" height="42" rx="8"/>
+        <text class="inactive" x="1262" y="286" font-size="17" font-weight="600" text-anchor="middle">Backspace</text>
+      </g>
+      <g class="left" data-control="Hot Cue A">
+        <polyline class="wire" data-chord="49" data-action="button" points="212,300 212,307 227,307 227,315"/>
+        <circle class="pin" cx="212" cy="300" r="3"/>
+        <rect class="control" x="172" y="315" width="80" height="32" rx="7"/>
+        <text class="mapped-label" x="212" y="328" font-size="14" font-weight="600" text-anchor="middle">Hot Cue</text>
+        <text class="mapped-label" x="212" y="342" font-size="14" font-weight="600" text-anchor="middle">A</text>
+      </g>
+      <g class="left" data-control="Hot Cue B">
+        <polyline class="wire" data-chord="50" data-action="button" points="296,300 296,307 311,307 311,315"/>
+        <circle class="pin" cx="296" cy="300" r="3"/>
+        <rect class="control" x="256" y="315" width="80" height="32" rx="7"/>
+        <text class="mapped-label" x="296" y="328" font-size="14" font-weight="600" text-anchor="middle">Hot Cue</text>
+        <text class="mapped-label" x="296" y="342" font-size="14" font-weight="600" text-anchor="middle">B</text>
+      </g>
+      <g class="left" data-control="Hot Cue C">
+        <polyline class="wire" data-chord="51" data-action="button" points="380,300 380,307 395,307 395,315"/>
+        <circle class="pin" cx="380" cy="300" r="3"/>
+        <rect class="control" x="340" y="315" width="80" height="32" rx="7"/>
+        <text class="mapped-label" x="380" y="328" font-size="14" font-weight="600" text-anchor="middle">Hot Cue</text>
+        <text class="mapped-label" x="380" y="342" font-size="14" font-weight="600" text-anchor="middle">C</text>
+      </g>
+      <g class="left" data-control="Hot Cue D">
+        <polyline class="wire" data-chord="52" data-action="button" points="464,300 464,307 479,307 479,315"/>
+        <circle class="pin" cx="464" cy="300" r="3"/>
+        <rect class="control" x="424" y="315" width="80" height="32" rx="7"/>
+        <text class="mapped-label" x="464" y="328" font-size="14" font-weight="600" text-anchor="middle">Hot Cue</text>
+        <text class="mapped-label" x="464" y="342" font-size="14" font-weight="600" text-anchor="middle">D</text>
+      </g>
+      <g class="right" data-control="Hot Cue A">
+        <polyline class="wire" data-chord="57" data-action="button" points="884,300 884,307 899,307 899,315"/>
+        <circle class="pin" cx="884" cy="300" r="3"/>
+        <rect class="control" x="844" y="315" width="80" height="32" rx="7"/>
+        <text class="mapped-label" x="884" y="328" font-size="14" font-weight="600" text-anchor="middle">Hot Cue</text>
+        <text class="mapped-label" x="884" y="342" font-size="14" font-weight="600" text-anchor="middle">A</text>
+      </g>
+      <g class="right" data-control="Hot Cue B">
+        <polyline class="wire" data-chord="48" data-action="button" points="968,300 968,307 983,307 983,315"/>
+        <circle class="pin" cx="968" cy="300" r="3"/>
+        <rect class="control" x="928" y="315" width="80" height="32" rx="7"/>
+        <text class="mapped-label" x="968" y="328" font-size="14" font-weight="600" text-anchor="middle">Hot Cue</text>
+        <text class="mapped-label" x="968" y="342" font-size="14" font-weight="600" text-anchor="middle">B</text>
+      </g>
+      <g class="right" data-control="Hot Cue C">
+        <polyline class="wire" data-chord="189" data-action="button" points="1052,300 1052,307 1067,307 1067,315"/>
+        <circle class="pin" cx="1052" cy="300" r="3"/>
+        <rect class="control" x="1012" y="315" width="80" height="32" rx="7"/>
+        <text class="mapped-label" x="1052" y="328" font-size="14" font-weight="600" text-anchor="middle">Hot Cue</text>
+        <text class="mapped-label" x="1052" y="342" font-size="14" font-weight="600" text-anchor="middle">C</text>
+      </g>
+      <g class="right" data-control="Hot Cue D">
+        <polyline class="wire" data-chord="187" data-action="button" points="1136,300 1136,307 1151,307 1151,315"/>
+        <circle class="pin" cx="1136" cy="300" r="3"/>
+        <rect class="control" x="1096" y="315" width="80" height="32" rx="7"/>
+        <text class="mapped-label" x="1136" y="328" font-size="14" font-weight="600" text-anchor="middle">Hot Cue</text>
+        <text class="mapped-label" x="1136" y="342" font-size="14" font-weight="600" text-anchor="middle">D</text>
+      </g>
+    </g>
+    <g>
+      <g data-key="Tab">
+        <rect class="key" x="90" y="352" width="118" height="42" rx="8"/>
+        <text class="inactive" x="149" y="380" font-size="20" font-weight="600" text-anchor="middle">Tab</text>
+      </g>
+      <g class="left" data-key="Q">
+        <rect class="active" x="216" y="352" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="254" y="380" font-size="20" font-weight="600" text-anchor="middle">Q</text>
+      </g>
+      <g class="left" data-key="W">
+        <rect class="active" x="300" y="352" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="338" y="380" font-size="20" font-weight="600" text-anchor="middle">W</text>
+      </g>
+      <g class="left" data-key="E">
+        <rect class="active" x="384" y="352" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="422" y="380" font-size="20" font-weight="600" text-anchor="middle">E</text>
+      </g>
+      <g class="left" data-key="R">
+        <rect class="active" x="468" y="352" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="506" y="380" font-size="20" font-weight="600" text-anchor="middle">R</text>
+      </g>
+      <g class="left" data-key="T">
+        <rect class="active" x="552" y="352" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="590" y="380" font-size="20" font-weight="600" text-anchor="middle">T</text>
+      </g>
+      <g data-key="Y">
+        <rect class="key" x="636" y="352" width="76" height="42" rx="8"/>
+        <text class="inactive" x="674" y="380" font-size="20" font-weight="600" text-anchor="middle">Y</text>
+      </g>
+      <g data-key="U">
+        <rect class="key" x="720" y="352" width="76" height="42" rx="8"/>
+        <text class="inactive" x="758" y="380" font-size="20" font-weight="600" text-anchor="middle">U</text>
+      </g>
+      <g class="right" data-key="I">
+        <rect class="active" x="804" y="352" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="842" y="380" font-size="20" font-weight="600" text-anchor="middle">I</text>
+      </g>
+      <g class="right" data-key="O">
+        <rect class="active" x="888" y="352" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="926" y="380" font-size="20" font-weight="600" text-anchor="middle">O</text>
+      </g>
+      <g class="right" data-key="P">
+        <rect class="active" x="972" y="352" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="1010" y="380" font-size="20" font-weight="600" text-anchor="middle">P</text>
+      </g>
+      <g class="right" data-key="[">
+        <rect class="active" x="1056" y="352" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="1094" y="380" font-size="20" font-weight="600" text-anchor="middle">[</text>
+      </g>
+      <g class="right" data-key="]">
+        <rect class="active" x="1140" y="352" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="1178" y="380" font-size="20" font-weight="600" text-anchor="middle">]</text>
+      </g>
+      <g data-key="\">
+        <rect class="key" x="1224" y="352" width="118" height="42" rx="8"/>
+        <text class="inactive" x="1283" y="380" font-size="20" font-weight="600" text-anchor="middle">\</text>
+      </g>
+      <g class="left" data-control="竖推">
+        <polyline class="wire" data-chord="69" data-action="decrease" points="422,394 422,401 434,401 434,409"/>
+        <circle class="pin" cx="422" cy="394" r="3"/>
+        <text class="mapped-label" x="445" y="406" font-size="15" font-weight="600" text-anchor="middle">−</text>
+        <polyline class="wire" data-chord="82" data-action="increase" points="506,394 506,401 494,401 494,409"/>
+        <circle class="pin" cx="506" cy="394" r="3"/>
+        <text class="mapped-label" x="483" y="406" font-size="15" font-weight="600" text-anchor="middle">+</text>
+        <rect class="control" x="384" y="409" width="160" height="32" rx="12"/>
+        <path class="glyph" d="M403 417 v5 m0 6 v5"/><rect class="glyph" x="397" y="422" width="12" height="6" rx="1"/>
+        <text class="mapped-label" x="472" y="431" font-size="17" font-weight="600" text-anchor="middle">竖推</text>
+      </g>
+      <g class="left" data-control="高频">
+        <polyline class="wire" data-chord="81" data-action="decrease" points="254,394 254,401 266,401 266,409"/>
+        <circle class="pin" cx="254" cy="394" r="3"/>
+        <text class="mapped-label" x="277" y="406" font-size="15" font-weight="600" text-anchor="middle">−</text>
+        <polyline class="wire" data-chord="87" data-action="increase" points="338,394 338,401 326,401 326,409"/>
+        <circle class="pin" cx="338" cy="394" r="3"/>
+        <text class="mapped-label" x="315" y="406" font-size="15" font-weight="600" text-anchor="middle">+</text>
+        <rect class="control" x="216" y="409" width="160" height="32" rx="12"/>
+        <circle class="glyph" cx="235" cy="425" r="6"/><path class="glyph" d="M235 425 l3 -4"/>
+        <text class="mapped-label" x="304" y="431" font-size="17" font-weight="600" text-anchor="middle">高频</text>
+      </g>
+      <g class="left" data-control="四拍循环 减半">
+        <polyline class="wire" data-chord="84" data-action="button" points="590,394 590,401 605,401 605,409"/>
+        <circle class="pin" cx="590" cy="394" r="3"/>
+        <rect class="control" x="550" y="409" width="80" height="32" rx="7"/>
+        <text class="mapped-label" x="590" y="422" font-size="14" font-weight="600" text-anchor="middle">四拍循环</text>
+        <text class="mapped-label" x="590" y="436" font-size="14" font-weight="600" text-anchor="middle">减半</text>
+      </g>
+      <g class="right" data-control="竖推">
+        <polyline class="wire" data-chord="79" data-action="decrease" points="926,394 926,401 938,401 938,409"/>
+        <circle class="pin" cx="926" cy="394" r="3"/>
+        <text class="mapped-label" x="949" y="406" font-size="15" font-weight="600" text-anchor="middle">−</text>
+        <polyline class="wire" data-chord="80" data-action="increase" points="1010,394 1010,401 998,401 998,409"/>
+        <circle class="pin" cx="1010" cy="394" r="3"/>
+        <text class="mapped-label" x="987" y="406" font-size="15" font-weight="600" text-anchor="middle">+</text>
+        <rect class="control" x="888" y="409" width="160" height="32" rx="12"/>
+        <path class="glyph" d="M907 417 v5 m0 6 v5"/><rect class="glyph" x="901" y="422" width="12" height="6" rx="1"/>
+        <text class="mapped-label" x="976" y="431" font-size="17" font-weight="600" text-anchor="middle">竖推</text>
+      </g>
+      <g class="right" data-control="高频">
+        <polyline class="wire" data-chord="219" data-action="decrease" points="1094,394 1094,401 1106,401 1106,409"/>
+        <circle class="pin" cx="1094" cy="394" r="3"/>
+        <text class="mapped-label" x="1117" y="406" font-size="15" font-weight="600" text-anchor="middle">−</text>
+        <polyline class="wire" data-chord="221" data-action="increase" points="1178,394 1178,401 1166,401 1166,409"/>
+        <circle class="pin" cx="1178" cy="394" r="3"/>
+        <text class="mapped-label" x="1155" y="406" font-size="15" font-weight="600" text-anchor="middle">+</text>
+        <rect class="control" x="1056" y="409" width="160" height="32" rx="12"/>
+        <circle class="glyph" cx="1075" cy="425" r="6"/><path class="glyph" d="M1075 425 l3 -4"/>
+        <text class="mapped-label" x="1144" y="431" font-size="17" font-weight="600" text-anchor="middle">高频</text>
+      </g>
+      <g class="right" data-control="四拍循环 减半">
+        <polyline class="wire" data-chord="73" data-action="button" points="842,394 842,401 857,401 857,409"/>
+        <circle class="pin" cx="842" cy="394" r="3"/>
+        <rect class="control" x="802" y="409" width="80" height="32" rx="7"/>
+        <text class="mapped-label" x="842" y="422" font-size="14" font-weight="600" text-anchor="middle">四拍循环</text>
+        <text class="mapped-label" x="842" y="436" font-size="14" font-weight="600" text-anchor="middle">减半</text>
+      </g>
+    </g>
+    <g>
+      <g data-key="Caps Lock">
+        <rect class="key" x="90" y="446" width="139" height="42" rx="8"/>
+        <text class="inactive" x="159.5" y="474" font-size="17" font-weight="600" text-anchor="middle">Caps Lock</text>
+      </g>
+      <g class="left" data-key="A">
+        <rect class="active" x="237" y="446" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="275" y="474" font-size="20" font-weight="600" text-anchor="middle">A</text>
+      </g>
+      <g class="left" data-key="S">
+        <rect class="active" x="321" y="446" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="359" y="474" font-size="20" font-weight="600" text-anchor="middle">S</text>
+      </g>
+      <g class="left" data-key="D">
+        <rect class="active" x="405" y="446" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="443" y="474" font-size="20" font-weight="600" text-anchor="middle">D</text>
+      </g>
+      <g class="left" data-key="F">
+        <rect class="active" x="489" y="446" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="527" y="474" font-size="20" font-weight="600" text-anchor="middle">F</text>
+      </g>
+      <g class="common" data-key="G">
+        <rect class="active" x="573" y="446" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="611" y="474" font-size="20" font-weight="600" text-anchor="middle">G</text>
+      </g>
+      <g class="common" data-key="H">
+        <rect class="active" x="657" y="446" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="695" y="474" font-size="20" font-weight="600" text-anchor="middle">H</text>
+      </g>
+      <g data-key="J">
+        <rect class="key" x="741" y="446" width="76" height="42" rx="8"/>
+        <text class="inactive" x="779" y="474" font-size="20" font-weight="600" text-anchor="middle">J</text>
+      </g>
+      <g class="right" data-key="K">
+        <rect class="active" x="825" y="446" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="863" y="474" font-size="20" font-weight="600" text-anchor="middle">K</text>
+      </g>
+      <g class="right" data-key="L">
+        <rect class="active" x="909" y="446" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="947" y="474" font-size="20" font-weight="600" text-anchor="middle">L</text>
+      </g>
+      <g class="right" data-key=";">
+        <rect class="active" x="993" y="446" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="1031" y="474" font-size="20" font-weight="600" text-anchor="middle">;</text>
+      </g>
+      <g class="right" data-key="&#x27;">
+        <rect class="active" x="1077" y="446" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="1115" y="474" font-size="20" font-weight="600" text-anchor="middle">&#x27;</text>
+      </g>
+      <g data-key="Enter">
+        <rect class="key" x="1161" y="446" width="181" height="42" rx="8"/>
+        <text class="inactive" x="1251.5" y="474" font-size="17" font-weight="600" text-anchor="middle">Enter</text>
+      </g>
+      <g class="left" data-control="中频 / 中高频">
+        <polyline class="wire" data-chord="65" data-action="decrease" points="275,488 275,495 287,495 287,503"/>
+        <circle class="pin" cx="275" cy="488" r="3"/>
+        <text class="mapped-label" x="298" y="500" font-size="15" font-weight="600" text-anchor="middle">−</text>
+        <polyline class="wire" data-chord="83" data-action="increase" points="359,488 359,495 347,495 347,503"/>
+        <circle class="pin" cx="359" cy="488" r="3"/>
+        <text class="mapped-label" x="336" y="500" font-size="15" font-weight="600" text-anchor="middle">+</text>
+        <rect class="control" x="237" y="503" width="160" height="32" rx="12"/>
+        <circle class="glyph" cx="256" cy="519" r="6"/><path class="glyph" d="M256 519 l3 -4"/>
+        <text class="mapped-label" x="325" y="525" font-size="17" font-weight="600" text-anchor="middle">中频 / 中高频</text>
+      </g>
+      <g class="left" data-control="中低频">
+        <polyline class="wire" data-chord="68" data-action="decrease" points="443,488 443,495 455,495 455,503"/>
+        <circle class="pin" cx="443" cy="488" r="3"/>
+        <text class="mapped-label" x="466" y="500" font-size="15" font-weight="600" text-anchor="middle">−</text>
+        <polyline class="wire" data-chord="70" data-action="increase" points="527,488 527,495 515,495 515,503"/>
+        <circle class="pin" cx="527" cy="488" r="3"/>
+        <text class="mapped-label" x="504" y="500" font-size="15" font-weight="600" text-anchor="middle">+</text>
+        <rect class="control" x="405" y="503" width="160" height="32" rx="12"/>
+        <circle class="glyph" cx="424" cy="519" r="6"/><path class="glyph" d="M424 519 l3 -4"/>
+        <text class="mapped-label" x="493" y="525" font-size="17" font-weight="600" text-anchor="middle">中低频</text>
+      </g>
+      <g class="right" data-control="中频 / 中高频">
+        <polyline class="wire" data-chord="186" data-action="decrease" points="1031,488 1031,495 1043,495 1043,503"/>
+        <circle class="pin" cx="1031" cy="488" r="3"/>
+        <text class="mapped-label" x="1054" y="500" font-size="15" font-weight="600" text-anchor="middle">−</text>
+        <polyline class="wire" data-chord="222" data-action="increase" points="1115,488 1115,495 1103,495 1103,503"/>
+        <circle class="pin" cx="1115" cy="488" r="3"/>
+        <text class="mapped-label" x="1092" y="500" font-size="15" font-weight="600" text-anchor="middle">+</text>
+        <rect class="control" x="993" y="503" width="160" height="32" rx="12"/>
+        <circle class="glyph" cx="1012" cy="519" r="6"/><path class="glyph" d="M1012 519 l3 -4"/>
+        <text class="mapped-label" x="1081" y="525" font-size="17" font-weight="600" text-anchor="middle">中频 / 中高频</text>
+      </g>
+      <g class="right" data-control="中低频">
+        <polyline class="wire" data-chord="75" data-action="decrease" points="863,488 863,495 875,495 875,503"/>
+        <circle class="pin" cx="863" cy="488" r="3"/>
+        <text class="mapped-label" x="886" y="500" font-size="15" font-weight="600" text-anchor="middle">−</text>
+        <polyline class="wire" data-chord="76" data-action="increase" points="947,488 947,495 935,495 935,503"/>
+        <circle class="pin" cx="947" cy="488" r="3"/>
+        <text class="mapped-label" x="924" y="500" font-size="15" font-weight="600" text-anchor="middle">+</text>
+        <rect class="control" x="825" y="503" width="160" height="32" rx="12"/>
+        <circle class="glyph" cx="844" cy="519" r="6"/><path class="glyph" d="M844 519 l3 -4"/>
+        <text class="mapped-label" x="913" y="525" font-size="17" font-weight="600" text-anchor="middle">中低频</text>
+      </g>
+      <g class="common" data-control="A10 交叉推子">
+        <polyline class="wire" data-chord="71" data-action="decrease" points="611,488 611,495 623,495 623,503"/>
+        <circle class="pin" cx="611" cy="488" r="3"/>
+        <text class="mapped-label" x="634" y="500" font-size="15" font-weight="600" text-anchor="middle">−</text>
+        <polyline class="wire" data-chord="72" data-action="increase" points="695,488 695,495 683,495 683,503"/>
+        <circle class="pin" cx="695" cy="488" r="3"/>
+        <text class="mapped-label" x="672" y="500" font-size="15" font-weight="600" text-anchor="middle">+</text>
+        <rect class="control" x="573" y="503" width="160" height="32" rx="12"/>
+        <path class="glyph" d="M584 519 h5 m6 0 h5"/><rect class="glyph" x="589" y="513" width="6" height="12" rx="1"/>
+        <text class="mapped-label" x="661" y="525" font-size="17" font-weight="600" text-anchor="middle">A10 交叉推子</text>
+      </g>
+    </g>
+    <g>
+      <g data-key="Shift">
+        <rect class="key" x="90" y="540" width="181" height="42" rx="8"/>
+        <text class="inactive" x="180.5" y="568" font-size="17" font-weight="600" text-anchor="middle">Shift</text>
+      </g>
+      <g class="left" data-key="Z">
+        <rect class="active" x="279" y="540" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="317" y="568" font-size="20" font-weight="600" text-anchor="middle">Z</text>
+      </g>
+      <g class="left" data-key="X">
+        <rect class="active" x="363" y="540" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="401" y="568" font-size="20" font-weight="600" text-anchor="middle">X</text>
+      </g>
+      <g class="left" data-key="C">
+        <rect class="active" x="447" y="540" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="485" y="568" font-size="20" font-weight="600" text-anchor="middle">C</text>
+      </g>
+      <g class="left" data-key="V">
+        <rect class="active" x="531" y="540" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="569" y="568" font-size="20" font-weight="600" text-anchor="middle">V</text>
+      </g>
+      <g data-key="B">
+        <rect class="key" x="615" y="540" width="76" height="42" rx="8"/>
+        <text class="inactive" x="653" y="568" font-size="20" font-weight="600" text-anchor="middle">B</text>
+      </g>
+      <g data-key="N">
+        <rect class="key" x="699" y="540" width="76" height="42" rx="8"/>
+        <text class="inactive" x="737" y="568" font-size="20" font-weight="600" text-anchor="middle">N</text>
+      </g>
+      <g class="right" data-key="M">
+        <rect class="active" x="783" y="540" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="821" y="568" font-size="20" font-weight="600" text-anchor="middle">M</text>
+      </g>
+      <g class="right" data-key=",">
+        <rect class="active" x="867" y="540" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="905" y="568" font-size="20" font-weight="600" text-anchor="middle">,</text>
+      </g>
+      <g class="right" data-key=".">
+        <rect class="active" x="951" y="540" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="989" y="568" font-size="20" font-weight="600" text-anchor="middle">.</text>
+      </g>
+      <g class="right" data-key="/">
+        <rect class="active" x="1035" y="540" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="1073" y="568" font-size="20" font-weight="600" text-anchor="middle">/</text>
+      </g>
+      <g data-key="Shift">
+        <rect class="key" x="1119" y="540" width="223" height="42" rx="8"/>
+        <text class="inactive" x="1230.5" y="568" font-size="17" font-weight="600" text-anchor="middle">Shift</text>
+      </g>
+      <g class="left" data-control="播放/暂停">
+        <polyline class="wire" data-chord="86" data-action="button" points="569,582 569,589 584,589 584,597"/>
+        <circle class="pin" cx="569" cy="582" r="3"/>
+        <rect class="control" x="529" y="597" width="80" height="32" rx="7"/>
+        <text class="mapped-label" x="569" y="619" font-size="16" font-weight="600" text-anchor="middle">播放/暂停</text>
+      </g>
+      <g class="left" data-control="CUE">
+        <polyline class="wire" data-chord="67" data-action="button" points="485,582 485,589 500,589 500,597"/>
+        <circle class="pin" cx="485" cy="582" r="3"/>
+        <rect class="control" x="445" y="597" width="80" height="32" rx="7"/>
+        <text class="mapped-label" x="485" y="619" font-size="17" font-weight="600" text-anchor="middle">CUE</text>
+      </g>
+      <g class="left" data-control="低频">
+        <polyline class="wire" data-chord="90" data-action="decrease" points="317,582 317,589 329,589 329,597"/>
+        <circle class="pin" cx="317" cy="582" r="3"/>
+        <text class="mapped-label" x="340" y="594" font-size="15" font-weight="600" text-anchor="middle">−</text>
+        <polyline class="wire" data-chord="88" data-action="increase" points="401,582 401,589 389,589 389,597"/>
+        <circle class="pin" cx="401" cy="582" r="3"/>
+        <text class="mapped-label" x="378" y="594" font-size="15" font-weight="600" text-anchor="middle">+</text>
+        <rect class="control" x="279" y="597" width="160" height="32" rx="12"/>
+        <circle class="glyph" cx="298" cy="613" r="6"/><path class="glyph" d="M298 613 l3 -4"/>
+        <text class="mapped-label" x="367" y="619" font-size="17" font-weight="600" text-anchor="middle">低频</text>
+      </g>
+      <g class="right" data-control="播放/暂停">
+        <polyline class="wire" data-chord="77" data-action="button" points="821,582 821,589 836,589 836,597"/>
+        <circle class="pin" cx="821" cy="582" r="3"/>
+        <rect class="control" x="781" y="597" width="80" height="32" rx="7"/>
+        <text class="mapped-label" x="821" y="619" font-size="16" font-weight="600" text-anchor="middle">播放/暂停</text>
+      </g>
+      <g class="right" data-control="CUE">
+        <polyline class="wire" data-chord="188" data-action="button" points="905,582 905,589 920,589 920,597"/>
+        <circle class="pin" cx="905" cy="582" r="3"/>
+        <rect class="control" x="865" y="597" width="80" height="32" rx="7"/>
+        <text class="mapped-label" x="905" y="619" font-size="17" font-weight="600" text-anchor="middle">CUE</text>
+      </g>
+      <g class="right" data-control="低频">
+        <polyline class="wire" data-chord="190" data-action="decrease" points="989,582 989,589 1001,589 1001,597"/>
+        <circle class="pin" cx="989" cy="582" r="3"/>
+        <text class="mapped-label" x="1012" y="594" font-size="15" font-weight="600" text-anchor="middle">−</text>
+        <polyline class="wire" data-chord="191" data-action="increase" points="1073,582 1073,589 1061,589 1061,597"/>
+        <circle class="pin" cx="1073" cy="582" r="3"/>
+        <text class="mapped-label" x="1050" y="594" font-size="15" font-weight="600" text-anchor="middle">+</text>
+        <rect class="control" x="951" y="597" width="160" height="32" rx="12"/>
+        <circle class="glyph" cx="970" cy="613" r="6"/><path class="glyph" d="M970 613 l3 -4"/>
+        <text class="mapped-label" x="1039" y="619" font-size="17" font-weight="600" text-anchor="middle">低频</text>
+      </g>
+    </g>
+    <g>
+      <g data-key="Ctrl">
+        <rect class="key" x="90" y="634" width="97" height="42" rx="8"/>
+        <text class="inactive" x="138.5" y="662" font-size="17" font-weight="600" text-anchor="middle">Ctrl</text>
+      </g>
+      <g data-key="Win">
+        <rect class="key" x="195" y="634" width="97" height="42" rx="8"/>
+        <text class="inactive" x="243.5" y="662" font-size="20" font-weight="600" text-anchor="middle">Win</text>
+      </g>
+      <g data-key="Alt">
+        <rect class="key" x="300" y="634" width="97" height="42" rx="8"/>
+        <text class="inactive" x="348.5" y="662" font-size="20" font-weight="600" text-anchor="middle">Alt</text>
+      </g>
+      <g data-key="Space">
+        <rect class="key" x="405" y="634" width="517" height="42" rx="8"/>
+        <text class="inactive" x="663.5" y="662" font-size="17" font-weight="600" text-anchor="middle">Space</text>
+      </g>
+      <g data-key="Alt">
+        <rect class="key" x="930" y="634" width="97" height="42" rx="8"/>
+        <text class="inactive" x="978.5" y="662" font-size="20" font-weight="600" text-anchor="middle">Alt</text>
+      </g>
+      <g data-key="Win">
+        <rect class="key" x="1035" y="634" width="97" height="42" rx="8"/>
+        <text class="inactive" x="1083.5" y="662" font-size="20" font-weight="600" text-anchor="middle">Win</text>
+      </g>
+      <g data-key="Menu">
+        <rect class="key" x="1140" y="634" width="97" height="42" rx="8"/>
+        <text class="inactive" x="1188.5" y="662" font-size="17" font-weight="600" text-anchor="middle">Menu</text>
+      </g>
+      <g data-key="Ctrl">
+        <rect class="key" x="1245" y="634" width="97" height="42" rx="8"/>
+        <text class="inactive" x="1293.5" y="662" font-size="17" font-weight="600" text-anchor="middle">Ctrl</text>
+      </g>
+    </g>
+  </g>
+  <g id="shift-keys">
+    <rect class="panel" x="62" y="717" width="1316" height="503" rx="18"/>
+    <text x="90" y="756" font-size="24" font-weight="700">Shift 组合键</text>
+    <text class="muted" x="1350" y="755" font-size="18" text-anchor="end">按住 Shift，再按折线所指的键</text>
+    <g>
+      <g data-key="`">
+        <rect class="key" x="90" y="780" width="76" height="42" rx="8"/>
+        <text class="inactive" x="128" y="808" font-size="20" font-weight="600" text-anchor="middle">`</text>
+      </g>
+      <g class="left" data-key="1">
+        <rect class="active" x="174" y="780" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="212" y="808" font-size="20" font-weight="600" text-anchor="middle">1</text>
+      </g>
+      <g class="left" data-key="2">
+        <rect class="active" x="258" y="780" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="296" y="808" font-size="20" font-weight="600" text-anchor="middle">2</text>
+      </g>
+      <g class="left" data-key="3">
+        <rect class="active" x="342" y="780" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="380" y="808" font-size="20" font-weight="600" text-anchor="middle">3</text>
+      </g>
+      <g class="left" data-key="4">
+        <rect class="active" x="426" y="780" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="464" y="808" font-size="20" font-weight="600" text-anchor="middle">4</text>
+      </g>
+      <g data-key="5">
+        <rect class="key" x="510" y="780" width="76" height="42" rx="8"/>
+        <text class="inactive" x="548" y="808" font-size="20" font-weight="600" text-anchor="middle">5</text>
+      </g>
+      <g data-key="6">
+        <rect class="key" x="594" y="780" width="76" height="42" rx="8"/>
+        <text class="inactive" x="632" y="808" font-size="20" font-weight="600" text-anchor="middle">6</text>
+      </g>
+      <g data-key="7">
+        <rect class="key" x="678" y="780" width="76" height="42" rx="8"/>
+        <text class="inactive" x="716" y="808" font-size="20" font-weight="600" text-anchor="middle">7</text>
+      </g>
+      <g data-key="8">
+        <rect class="key" x="762" y="780" width="76" height="42" rx="8"/>
+        <text class="inactive" x="800" y="808" font-size="20" font-weight="600" text-anchor="middle">8</text>
+      </g>
+      <g class="right" data-key="9">
+        <rect class="active" x="846" y="780" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="884" y="808" font-size="20" font-weight="600" text-anchor="middle">9</text>
+      </g>
+      <g class="right" data-key="0">
+        <rect class="active" x="930" y="780" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="968" y="808" font-size="20" font-weight="600" text-anchor="middle">0</text>
+      </g>
+      <g class="right" data-key="-">
+        <rect class="active" x="1014" y="780" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="1052" y="808" font-size="20" font-weight="600" text-anchor="middle">-</text>
+      </g>
+      <g class="right" data-key="=">
+        <rect class="active" x="1098" y="780" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="1136" y="808" font-size="20" font-weight="600" text-anchor="middle">=</text>
+      </g>
+      <g data-key="Backspace">
+        <rect class="key" x="1182" y="780" width="160" height="42" rx="8"/>
+        <text class="inactive" x="1262" y="808" font-size="17" font-weight="600" text-anchor="middle">Backspace</text>
+      </g>
+      <g class="left" data-control="Hot Cue E">
+        <polyline class="wire" data-chord="65585" data-action="button" points="212,822 212,829 227,829 227,837"/>
+        <circle class="pin" cx="212" cy="822" r="3"/>
+        <rect class="control" x="172" y="837" width="80" height="32" rx="7"/>
+        <text class="mapped-label" x="212" y="850" font-size="14" font-weight="600" text-anchor="middle">Hot Cue</text>
+        <text class="mapped-label" x="212" y="864" font-size="14" font-weight="600" text-anchor="middle">E</text>
+      </g>
+      <g class="left" data-control="Hot Cue F">
+        <polyline class="wire" data-chord="65586" data-action="button" points="296,822 296,829 311,829 311,837"/>
+        <circle class="pin" cx="296" cy="822" r="3"/>
+        <rect class="control" x="256" y="837" width="80" height="32" rx="7"/>
+        <text class="mapped-label" x="296" y="850" font-size="14" font-weight="600" text-anchor="middle">Hot Cue</text>
+        <text class="mapped-label" x="296" y="864" font-size="14" font-weight="600" text-anchor="middle">F</text>
+      </g>
+      <g class="left" data-control="Hot Cue G">
+        <polyline class="wire" data-chord="65587" data-action="button" points="380,822 380,829 395,829 395,837"/>
+        <circle class="pin" cx="380" cy="822" r="3"/>
+        <rect class="control" x="340" y="837" width="80" height="32" rx="7"/>
+        <text class="mapped-label" x="380" y="850" font-size="14" font-weight="600" text-anchor="middle">Hot Cue</text>
+        <text class="mapped-label" x="380" y="864" font-size="14" font-weight="600" text-anchor="middle">G</text>
+      </g>
+      <g class="left" data-control="Hot Cue H">
+        <polyline class="wire" data-chord="65588" data-action="button" points="464,822 464,829 479,829 479,837"/>
+        <circle class="pin" cx="464" cy="822" r="3"/>
+        <rect class="control" x="424" y="837" width="80" height="32" rx="7"/>
+        <text class="mapped-label" x="464" y="850" font-size="14" font-weight="600" text-anchor="middle">Hot Cue</text>
+        <text class="mapped-label" x="464" y="864" font-size="14" font-weight="600" text-anchor="middle">H</text>
+      </g>
+      <g class="right" data-control="Hot Cue E">
+        <polyline class="wire" data-chord="65593" data-action="button" points="884,822 884,829 899,829 899,837"/>
+        <circle class="pin" cx="884" cy="822" r="3"/>
+        <rect class="control" x="844" y="837" width="80" height="32" rx="7"/>
+        <text class="mapped-label" x="884" y="850" font-size="14" font-weight="600" text-anchor="middle">Hot Cue</text>
+        <text class="mapped-label" x="884" y="864" font-size="14" font-weight="600" text-anchor="middle">E</text>
+      </g>
+      <g class="right" data-control="Hot Cue F">
+        <polyline class="wire" data-chord="65584" data-action="button" points="968,822 968,829 983,829 983,837"/>
+        <circle class="pin" cx="968" cy="822" r="3"/>
+        <rect class="control" x="928" y="837" width="80" height="32" rx="7"/>
+        <text class="mapped-label" x="968" y="850" font-size="14" font-weight="600" text-anchor="middle">Hot Cue</text>
+        <text class="mapped-label" x="968" y="864" font-size="14" font-weight="600" text-anchor="middle">F</text>
+      </g>
+      <g class="right" data-control="Hot Cue G">
+        <polyline class="wire" data-chord="65725" data-action="button" points="1052,822 1052,829 1067,829 1067,837"/>
+        <circle class="pin" cx="1052" cy="822" r="3"/>
+        <rect class="control" x="1012" y="837" width="80" height="32" rx="7"/>
+        <text class="mapped-label" x="1052" y="850" font-size="14" font-weight="600" text-anchor="middle">Hot Cue</text>
+        <text class="mapped-label" x="1052" y="864" font-size="14" font-weight="600" text-anchor="middle">G</text>
+      </g>
+      <g class="right" data-control="Hot Cue H">
+        <polyline class="wire" data-chord="65723" data-action="button" points="1136,822 1136,829 1151,829 1151,837"/>
+        <circle class="pin" cx="1136" cy="822" r="3"/>
+        <rect class="control" x="1096" y="837" width="80" height="32" rx="7"/>
+        <text class="mapped-label" x="1136" y="850" font-size="14" font-weight="600" text-anchor="middle">Hot Cue</text>
+        <text class="mapped-label" x="1136" y="864" font-size="14" font-weight="600" text-anchor="middle">H</text>
+      </g>
+    </g>
+    <g>
+      <g data-key="Tab">
+        <rect class="key" x="90" y="874" width="118" height="42" rx="8"/>
+        <text class="inactive" x="149" y="902" font-size="20" font-weight="600" text-anchor="middle">Tab</text>
+      </g>
+      <g data-key="Q">
+        <rect class="key" x="216" y="874" width="76" height="42" rx="8"/>
+        <text class="inactive" x="254" y="902" font-size="20" font-weight="600" text-anchor="middle">Q</text>
+      </g>
+      <g data-key="W">
+        <rect class="key" x="300" y="874" width="76" height="42" rx="8"/>
+        <text class="inactive" x="338" y="902" font-size="20" font-weight="600" text-anchor="middle">W</text>
+      </g>
+      <g class="left" data-key="E">
+        <rect class="active" x="384" y="874" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="422" y="902" font-size="20" font-weight="600" text-anchor="middle">E</text>
+      </g>
+      <g class="left" data-key="R">
+        <rect class="active" x="468" y="874" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="506" y="902" font-size="20" font-weight="600" text-anchor="middle">R</text>
+      </g>
+      <g class="left" data-key="T">
+        <rect class="active" x="552" y="874" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="590" y="902" font-size="20" font-weight="600" text-anchor="middle">T</text>
+      </g>
+      <g data-key="Y">
+        <rect class="key" x="636" y="874" width="76" height="42" rx="8"/>
+        <text class="inactive" x="674" y="902" font-size="20" font-weight="600" text-anchor="middle">Y</text>
+      </g>
+      <g data-key="U">
+        <rect class="key" x="720" y="874" width="76" height="42" rx="8"/>
+        <text class="inactive" x="758" y="902" font-size="20" font-weight="600" text-anchor="middle">U</text>
+      </g>
+      <g class="right" data-key="I">
+        <rect class="active" x="804" y="874" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="842" y="902" font-size="20" font-weight="600" text-anchor="middle">I</text>
+      </g>
+      <g class="right" data-key="O">
+        <rect class="active" x="888" y="874" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="926" y="902" font-size="20" font-weight="600" text-anchor="middle">O</text>
+      </g>
+      <g class="right" data-key="P">
+        <rect class="active" x="972" y="874" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="1010" y="902" font-size="20" font-weight="600" text-anchor="middle">P</text>
+      </g>
+      <g data-key="[">
+        <rect class="key" x="1056" y="874" width="76" height="42" rx="8"/>
+        <text class="inactive" x="1094" y="902" font-size="20" font-weight="600" text-anchor="middle">[</text>
+      </g>
+      <g data-key="]">
+        <rect class="key" x="1140" y="874" width="76" height="42" rx="8"/>
+        <text class="inactive" x="1178" y="902" font-size="20" font-weight="600" text-anchor="middle">]</text>
+      </g>
+      <g data-key="\">
+        <rect class="key" x="1224" y="874" width="118" height="42" rx="8"/>
+        <text class="inactive" x="1283" y="902" font-size="20" font-weight="600" text-anchor="middle">\</text>
+      </g>
+      <g class="left" data-control="退出/恢复 循环">
+        <polyline class="wire" data-chord="65620" data-action="button" points="590,916 590,923 605,923 605,931"/>
+        <circle class="pin" cx="590" cy="916" r="3"/>
+        <rect class="control" x="550" y="931" width="80" height="32" rx="7"/>
+        <text class="mapped-label" x="590" y="944" font-size="14" font-weight="600" text-anchor="middle">退出/恢复</text>
+        <text class="mapped-label" x="590" y="958" font-size="14" font-weight="600" text-anchor="middle">循环</text>
+      </g>
+      <g class="left" data-control="Loop In">
+        <polyline class="wire" data-chord="65605" data-action="button" points="422,916 422,923 437,923 437,931"/>
+        <circle class="pin" cx="422" cy="916" r="3"/>
+        <rect class="control" x="382" y="931" width="80" height="32" rx="7"/>
+        <text class="mapped-label" x="422" y="953" font-size="17" font-weight="600" text-anchor="middle">Loop In</text>
+      </g>
+      <g class="left" data-control="Loop Out">
+        <polyline class="wire" data-chord="65618" data-action="button" points="506,916 506,923 521,923 521,931"/>
+        <circle class="pin" cx="506" cy="916" r="3"/>
+        <rect class="control" x="466" y="931" width="80" height="32" rx="7"/>
+        <text class="mapped-label" x="506" y="953" font-size="17" font-weight="600" text-anchor="middle">Loop Out</text>
+      </g>
+      <g class="right" data-control="退出/恢复 循环">
+        <polyline class="wire" data-chord="65609" data-action="button" points="842,916 842,923 857,923 857,931"/>
+        <circle class="pin" cx="842" cy="916" r="3"/>
+        <rect class="control" x="802" y="931" width="80" height="32" rx="7"/>
+        <text class="mapped-label" x="842" y="944" font-size="14" font-weight="600" text-anchor="middle">退出/恢复</text>
+        <text class="mapped-label" x="842" y="958" font-size="14" font-weight="600" text-anchor="middle">循环</text>
+      </g>
+      <g class="right" data-control="Loop In">
+        <polyline class="wire" data-chord="65615" data-action="button" points="926,916 926,923 941,923 941,931"/>
+        <circle class="pin" cx="926" cy="916" r="3"/>
+        <rect class="control" x="886" y="931" width="80" height="32" rx="7"/>
+        <text class="mapped-label" x="926" y="953" font-size="17" font-weight="600" text-anchor="middle">Loop In</text>
+      </g>
+      <g class="right" data-control="Loop Out">
+        <polyline class="wire" data-chord="65616" data-action="button" points="1010,916 1010,923 1025,923 1025,931"/>
+        <circle class="pin" cx="1010" cy="916" r="3"/>
+        <rect class="control" x="970" y="931" width="80" height="32" rx="7"/>
+        <text class="mapped-label" x="1010" y="953" font-size="17" font-weight="600" text-anchor="middle">Loop Out</text>
+      </g>
+    </g>
+    <g>
+      <g data-key="Caps Lock">
+        <rect class="key" x="90" y="968" width="139" height="42" rx="8"/>
+        <text class="inactive" x="159.5" y="996" font-size="17" font-weight="600" text-anchor="middle">Caps Lock</text>
+      </g>
+      <g data-key="A">
+        <rect class="key" x="237" y="968" width="76" height="42" rx="8"/>
+        <text class="inactive" x="275" y="996" font-size="20" font-weight="600" text-anchor="middle">A</text>
+      </g>
+      <g data-key="S">
+        <rect class="key" x="321" y="968" width="76" height="42" rx="8"/>
+        <text class="inactive" x="359" y="996" font-size="20" font-weight="600" text-anchor="middle">S</text>
+      </g>
+      <g data-key="D">
+        <rect class="key" x="405" y="968" width="76" height="42" rx="8"/>
+        <text class="inactive" x="443" y="996" font-size="20" font-weight="600" text-anchor="middle">D</text>
+      </g>
+      <g data-key="F">
+        <rect class="key" x="489" y="968" width="76" height="42" rx="8"/>
+        <text class="inactive" x="527" y="996" font-size="20" font-weight="600" text-anchor="middle">F</text>
+      </g>
+      <g data-key="G">
+        <rect class="key" x="573" y="968" width="76" height="42" rx="8"/>
+        <text class="inactive" x="611" y="996" font-size="20" font-weight="600" text-anchor="middle">G</text>
+      </g>
+      <g data-key="H">
+        <rect class="key" x="657" y="968" width="76" height="42" rx="8"/>
+        <text class="inactive" x="695" y="996" font-size="20" font-weight="600" text-anchor="middle">H</text>
+      </g>
+      <g data-key="J">
+        <rect class="key" x="741" y="968" width="76" height="42" rx="8"/>
+        <text class="inactive" x="779" y="996" font-size="20" font-weight="600" text-anchor="middle">J</text>
+      </g>
+      <g data-key="K">
+        <rect class="key" x="825" y="968" width="76" height="42" rx="8"/>
+        <text class="inactive" x="863" y="996" font-size="20" font-weight="600" text-anchor="middle">K</text>
+      </g>
+      <g data-key="L">
+        <rect class="key" x="909" y="968" width="76" height="42" rx="8"/>
+        <text class="inactive" x="947" y="996" font-size="20" font-weight="600" text-anchor="middle">L</text>
+      </g>
+      <g data-key=";">
+        <rect class="key" x="993" y="968" width="76" height="42" rx="8"/>
+        <text class="inactive" x="1031" y="996" font-size="20" font-weight="600" text-anchor="middle">;</text>
+      </g>
+      <g data-key="&#x27;">
+        <rect class="key" x="1077" y="968" width="76" height="42" rx="8"/>
+        <text class="inactive" x="1115" y="996" font-size="20" font-weight="600" text-anchor="middle">&#x27;</text>
+      </g>
+      <g data-key="Enter">
+        <rect class="key" x="1161" y="968" width="181" height="42" rx="8"/>
+        <text class="inactive" x="1251.5" y="996" font-size="17" font-weight="600" text-anchor="middle">Enter</text>
+      </g>
+    </g>
+    <g>
+      <g data-key="Shift">
+        <rect class="shift" x="90" y="1062" width="181" height="42" rx="8"/>
+        <text class="inactive" x="180.5" y="1090" font-size="17" font-weight="600" text-anchor="middle">Shift</text>
+      </g>
+      <g class="left" data-key="Z">
+        <rect class="active" x="279" y="1062" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="317" y="1090" font-size="20" font-weight="600" text-anchor="middle">Z</text>
+      </g>
+      <g class="left" data-key="X">
+        <rect class="active" x="363" y="1062" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="401" y="1090" font-size="20" font-weight="600" text-anchor="middle">X</text>
+      </g>
+      <g class="left" data-key="C">
+        <rect class="active" x="447" y="1062" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="485" y="1090" font-size="20" font-weight="600" text-anchor="middle">C</text>
+      </g>
+      <g class="left" data-key="V">
+        <rect class="active" x="531" y="1062" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="569" y="1090" font-size="20" font-weight="600" text-anchor="middle">V</text>
+      </g>
+      <g data-key="B">
+        <rect class="key" x="615" y="1062" width="76" height="42" rx="8"/>
+        <text class="inactive" x="653" y="1090" font-size="20" font-weight="600" text-anchor="middle">B</text>
+      </g>
+      <g data-key="N">
+        <rect class="key" x="699" y="1062" width="76" height="42" rx="8"/>
+        <text class="inactive" x="737" y="1090" font-size="20" font-weight="600" text-anchor="middle">N</text>
+      </g>
+      <g class="right" data-key="M">
+        <rect class="active" x="783" y="1062" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="821" y="1090" font-size="20" font-weight="600" text-anchor="middle">M</text>
+      </g>
+      <g class="right" data-key=",">
+        <rect class="active" x="867" y="1062" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="905" y="1090" font-size="20" font-weight="600" text-anchor="middle">,</text>
+      </g>
+      <g class="right" data-key=".">
+        <rect class="active" x="951" y="1062" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="989" y="1090" font-size="20" font-weight="600" text-anchor="middle">.</text>
+      </g>
+      <g class="right" data-key="/">
+        <rect class="active" x="1035" y="1062" width="76" height="42" rx="8"/>
+        <text class="mapped-label" x="1073" y="1090" font-size="20" font-weight="600" text-anchor="middle">/</text>
+      </g>
+      <g data-key="Shift">
+        <rect class="shift" x="1119" y="1062" width="223" height="42" rx="8"/>
+        <text class="inactive" x="1230.5" y="1090" font-size="17" font-weight="600" text-anchor="middle">Shift</text>
+      </g>
+      <g class="left" data-control="耳机预听">
+        <polyline class="wire" data-chord="65603" data-action="button" points="485,1104 485,1111 500,1111 500,1119"/>
+        <circle class="pin" cx="485" cy="1104" r="3"/>
+        <rect class="control" x="445" y="1119" width="80" height="32" rx="7"/>
+        <text class="mapped-label" x="485" y="1141" font-size="17" font-weight="600" text-anchor="middle">耳机预听</text>
+      </g>
+      <g class="left" data-control="节拍同步">
+        <polyline class="wire" data-chord="65622" data-action="button" points="569,1104 569,1111 584,1111 584,1119"/>
+        <circle class="pin" cx="569" cy="1104" r="3"/>
+        <rect class="control" x="529" y="1119" width="80" height="32" rx="7"/>
+        <text class="mapped-label" x="569" y="1141" font-size="17" font-weight="600" text-anchor="middle">节拍同步</text>
+      </g>
+      <g class="left" data-control="调速杆">
+        <polyline class="wire" data-chord="65626" data-action="decrease" points="317,1104 317,1111 329,1111 329,1119"/>
+        <circle class="pin" cx="317" cy="1104" r="3"/>
+        <text class="mapped-label" x="340" y="1116" font-size="15" font-weight="600" text-anchor="middle">−</text>
+        <polyline class="wire" data-chord="65624" data-action="increase" points="401,1104 401,1111 389,1111 389,1119"/>
+        <circle class="pin" cx="401" cy="1104" r="3"/>
+        <text class="mapped-label" x="378" y="1116" font-size="15" font-weight="600" text-anchor="middle">+</text>
+        <rect class="control" x="279" y="1119" width="160" height="32" rx="12"/>
+        <path class="glyph" d="M298 1127 v5 m0 6 v5"/><rect class="glyph" x="292" y="1132" width="12" height="6" rx="1"/>
+        <text class="mapped-label" x="367" y="1141" font-size="17" font-weight="600" text-anchor="middle">调速杆</text>
+      </g>
+      <g class="right" data-control="耳机预听">
+        <polyline class="wire" data-chord="65724" data-action="button" points="905,1104 905,1111 920,1111 920,1119"/>
+        <circle class="pin" cx="905" cy="1104" r="3"/>
+        <rect class="control" x="865" y="1119" width="80" height="32" rx="7"/>
+        <text class="mapped-label" x="905" y="1141" font-size="17" font-weight="600" text-anchor="middle">耳机预听</text>
+      </g>
+      <g class="right" data-control="节拍同步">
+        <polyline class="wire" data-chord="65613" data-action="button" points="821,1104 821,1111 836,1111 836,1119"/>
+        <circle class="pin" cx="821" cy="1104" r="3"/>
+        <rect class="control" x="781" y="1119" width="80" height="32" rx="7"/>
+        <text class="mapped-label" x="821" y="1141" font-size="17" font-weight="600" text-anchor="middle">节拍同步</text>
+      </g>
+      <g class="right" data-control="调速杆">
+        <polyline class="wire" data-chord="65726" data-action="decrease" points="989,1104 989,1111 1001,1111 1001,1119"/>
+        <circle class="pin" cx="989" cy="1104" r="3"/>
+        <text class="mapped-label" x="1012" y="1116" font-size="15" font-weight="600" text-anchor="middle">−</text>
+        <polyline class="wire" data-chord="65727" data-action="increase" points="1073,1104 1073,1111 1061,1111 1061,1119"/>
+        <circle class="pin" cx="1073" cy="1104" r="3"/>
+        <text class="mapped-label" x="1050" y="1116" font-size="15" font-weight="600" text-anchor="middle">+</text>
+        <rect class="control" x="951" y="1119" width="160" height="32" rx="12"/>
+        <path class="glyph" d="M970 1127 v5 m0 6 v5"/><rect class="glyph" x="964" y="1132" width="12" height="6" rx="1"/>
+        <text class="mapped-label" x="1039" y="1141" font-size="17" font-weight="600" text-anchor="middle">调速杆</text>
+      </g>
+    </g>
+    <g>
+      <g data-key="Ctrl">
+        <rect class="key" x="90" y="1156" width="97" height="42" rx="8"/>
+        <text class="inactive" x="138.5" y="1184" font-size="17" font-weight="600" text-anchor="middle">Ctrl</text>
+      </g>
+      <g data-key="Win">
+        <rect class="key" x="195" y="1156" width="97" height="42" rx="8"/>
+        <text class="inactive" x="243.5" y="1184" font-size="20" font-weight="600" text-anchor="middle">Win</text>
+      </g>
+      <g data-key="Alt">
+        <rect class="key" x="300" y="1156" width="97" height="42" rx="8"/>
+        <text class="inactive" x="348.5" y="1184" font-size="20" font-weight="600" text-anchor="middle">Alt</text>
+      </g>
+      <g data-key="Space">
+        <rect class="key" x="405" y="1156" width="517" height="42" rx="8"/>
+        <text class="inactive" x="663.5" y="1184" font-size="17" font-weight="600" text-anchor="middle">Space</text>
+      </g>
+      <g data-key="Alt">
+        <rect class="key" x="930" y="1156" width="97" height="42" rx="8"/>
+        <text class="inactive" x="978.5" y="1184" font-size="20" font-weight="600" text-anchor="middle">Alt</text>
+      </g>
+      <g data-key="Win">
+        <rect class="key" x="1035" y="1156" width="97" height="42" rx="8"/>
+        <text class="inactive" x="1083.5" y="1184" font-size="20" font-weight="600" text-anchor="middle">Win</text>
+      </g>
+      <g data-key="Menu">
+        <rect class="key" x="1140" y="1156" width="97" height="42" rx="8"/>
+        <text class="inactive" x="1188.5" y="1184" font-size="17" font-weight="600" text-anchor="middle">Menu</text>
+      </g>
+      <g data-key="Ctrl">
+        <rect class="key" x="1245" y="1156" width="97" height="42" rx="8"/>
+        <text class="inactive" x="1293.5" y="1184" font-size="17" font-weight="600" text-anchor="middle">Ctrl</text>
+      </g>
+    </g>
+  </g>
+  <text x="63" y="1246" font-size="17" class="muted">QWERTY 主键区 · 组合键使用键帽上的原字符</text>
+</svg>
